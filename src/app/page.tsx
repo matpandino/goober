@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-const formNewPassengerSchema = z.object({
+const formNewRiderSchema = z.object({
   name: z.string().min(1).max(255).refine(data => data.trim() !== '', {
     message: 'Field is required',
   }),
@@ -47,18 +47,18 @@ const formNewDriverSchema = z.object({
 export default function Home() {
   const router = useRouter();
 
-  const passengerForm = useForm<z.infer<typeof formNewPassengerSchema>>({
-    resolver: zodResolver(formNewPassengerSchema),
+  const riderForm = useForm<z.infer<typeof formNewRiderSchema>>({
+    resolver: zodResolver(formNewRiderSchema),
   })
 
   const driverForm = useForm<z.infer<typeof formNewDriverSchema>>({
     resolver: zodResolver(formNewDriverSchema),
   })
 
-  function onSubmitNewPassenger(values: z.infer<typeof formNewPassengerSchema>) {
+  function onSubmitNewRider(values: z.infer<typeof formNewRiderSchema>) {
     // TODO: API integration
     console.log(values)
-    router.push('/passenger');
+    router.push('/rider');
   }
 
   function onSubmitNewDriver(values: z.infer<typeof formNewDriverSchema>) {
@@ -69,14 +69,14 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Tabs defaultValue="new-passenger" className="w-[400px]">
+      <Tabs defaultValue="new-rider" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="new-passenger">Passenger</TabsTrigger>
+          <TabsTrigger value="new-rider">Rider</TabsTrigger>
           <TabsTrigger value="new-driver">Driver</TabsTrigger>
         </TabsList>
-        <TabsContent value="new-passenger">
-          <Form {...passengerForm}>
-            <form onSubmit={passengerForm.handleSubmit(onSubmitNewPassenger)} className="space-y-8">
+        <TabsContent value="new-rider">
+          <Form {...riderForm}>
+            <form onSubmit={riderForm.handleSubmit(onSubmitNewRider)} className="space-y-8">
               <Card>
                 <CardHeader>
                   <CardTitle>Request your ride</CardTitle>
@@ -87,7 +87,7 @@ export default function Home() {
                 <CardContent className="space-y-2">
                   <div className="space-y-1">
                     <FormField
-                      control={passengerForm.control}
+                      control={riderForm.control}
                       name="name"
                       render={({ field }) => (
                         <FormItem>

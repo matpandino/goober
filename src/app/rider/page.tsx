@@ -1,7 +1,7 @@
 export default function Page() {
     return (
         <div>
-            <h1>Passenger Page</h1>
+            <h1>Rider Page</h1>
         </div>
     )
 }
