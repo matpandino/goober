@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/tabs"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
@@ -44,6 +45,8 @@ const formNewDriverSchema = z.object({
 })
 
 export default function Home() {
+  const router = useRouter();
+
   const passengerForm = useForm<z.infer<typeof formNewPassengerSchema>>({
     resolver: zodResolver(formNewPassengerSchema),
   })
@@ -55,11 +58,13 @@ export default function Home() {
   function onSubmitNewPassenger(values: z.infer<typeof formNewPassengerSchema>) {
     // TODO: API integration
     console.log(values)
+    router.push('/passenger');
   }
 
   function onSubmitNewDriver(values: z.infer<typeof formNewDriverSchema>) {
     // TODO: API integration
     console.log(values)
+    router.push('/driver');
   }
 
   return (
