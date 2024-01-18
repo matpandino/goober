@@ -2,21 +2,21 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { InputPlaceAutocomplete, SelectPlaceArgs } from './input-place-autocomplete'
+
+const location = z.object({
+    name: z.string().min(1),
+    lat: z.number().min(1),
+    lng: z.number().min(1)
+})
 
 const formSearchForTripSchema = z.object({
-    from: z.object({
-        name: z.string().min(1),
-        coordinates: z.string().min(1)
-    }),
-    to: z.object({
-        name: z.string().min(1),
-        coordinates: z.string().min(1)
-    }),
+    from: location,
+    to: location,
 });
 
 export const SearchTrip = () => {
@@ -24,9 +24,23 @@ export const SearchTrip = () => {
         resolver: zodResolver(formSearchForTripSchema),
     })
 
+    const { from, to } = searchForTripForm.watch()
+
+    const canSearch = !!from?.lat && !!from?.lng && !!to?.lat && !!to?.lng
+
     const onSubmit = (values: z.infer<typeof formSearchForTripSchema>) => {
         // TODO: API integration
         console.log(values)
+    }
+
+    const handleSelectLocation = (locationInfo: SelectPlaceArgs, fieldName: 'from' | 'to') => {
+        if (locationInfo) {
+            searchForTripForm.setValue(`${fieldName}.name`, locationInfo?.name)
+            searchForTripForm.setValue(`${fieldName}.lng`, locationInfo?.lng)
+            searchForTripForm.setValue(`${fieldName}.lat`, locationInfo?.lat)
+        } else {
+            searchForTripForm.resetField(`${fieldName}`)
+        }
     }
 
     return (
@@ -35,35 +49,17 @@ export const SearchTrip = () => {
                 <Card>
                     <CardContent>
                         <CardTitle className="py-4 text-md">Find your ride</CardTitle>
-                        <FormField
-                            control={searchForTripForm.control}
-                            name="from.name"
-                            render={({ field }) => (
-                                <FormItem className='mb-4'>
-                                    <FormLabel>From</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={searchForTripForm.control}
-                            name="to.name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>To</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        <div className='mb-4'>
+                            <FormLabel>From</FormLabel>
+                            <InputPlaceAutocomplete onSelectPlace={(locationInfo) => handleSelectLocation(locationInfo, 'from')} />
+                        </div>
+                        <div>
+                            <FormLabel>To</FormLabel>
+                            <InputPlaceAutocomplete onSelectPlace={(locationInfo) => handleSelectLocation(locationInfo, 'to')} />
+                        </div>
                     </CardContent>
                     <CardFooter>
-                        <Button type="submit" className='w-full'>Search</Button>
+                        <Button type="submit" disabled={!canSearch} className='w-full'>Search</Button>
                     </CardFooter>
                 </Card>
             </form>
