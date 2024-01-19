@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,8 +10,8 @@ import { InputPlaceAutocomplete, SelectPlaceArgs } from './input-place-autocompl
 
 const location = z.object({
     name: z.string().min(1),
-    lat: z.number().min(1),
-    lng: z.number().min(1)
+    lat: z.number(),
+    lng: z.number()
 })
 
 const formSearchForTripSchema = z.object({
@@ -19,7 +19,12 @@ const formSearchForTripSchema = z.object({
     to: location,
 });
 
-export const SearchTrip = () => {
+export type SearchForTripArgs = z.infer<typeof formSearchForTripSchema>
+interface SearchTripProps {
+    onSearch: (path: SearchForTripArgs) => void;
+}
+
+export const SearchTrip = ({ onSearch }: SearchTripProps) => {
     const searchForTripForm = useForm<z.infer<typeof formSearchForTripSchema>>({
         resolver: zodResolver(formSearchForTripSchema),
     })
@@ -29,11 +34,12 @@ export const SearchTrip = () => {
     const canSearch = !!from?.lat && !!from?.lng && !!to?.lat && !!to?.lng
 
     const onSubmit = (values: z.infer<typeof formSearchForTripSchema>) => {
-        // TODO: API integration
-        console.log(values)
+        console.log('searching: ', values)
+        onSearch(values)
     }
 
     const handleSelectLocation = (locationInfo: SelectPlaceArgs, fieldName: 'from' | 'to') => {
+        console.log(fieldName, locationInfo)
         if (locationInfo) {
             searchForTripForm.setValue(`${fieldName}.name`, locationInfo?.name)
             searchForTripForm.setValue(`${fieldName}.lng`, locationInfo?.lng)
@@ -47,8 +53,10 @@ export const SearchTrip = () => {
         <Form {...searchForTripForm}>
             <form onSubmit={searchForTripForm.handleSubmit(onSubmit)}>
                 <Card>
+                    <CardHeader>
+                        <CardTitle className="text-md">Find your ride</CardTitle>
+                    </CardHeader>
                     <CardContent>
-                        <CardTitle className="py-4 text-md">Find your ride</CardTitle>
                         <div className='mb-4'>
                             <FormLabel>From</FormLabel>
                             <InputPlaceAutocomplete onSelectPlace={(locationInfo) => handleSelectLocation(locationInfo, 'from')} />

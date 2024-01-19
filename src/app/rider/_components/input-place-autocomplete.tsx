@@ -51,7 +51,6 @@ const InputPlaceAutocomplete = ({ onSelectPlace }: InputPlaceAutocompleteProps) 
                 placeholder="Search an address"
                 className="combobox-input"
             />
-
             {status === "OK" && data.length && (
                 <CommandList className='absolute z-10 bg-background mt-12 border rounded-md'>
                     <CommandGroup>
