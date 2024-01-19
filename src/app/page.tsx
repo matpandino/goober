@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { useUser } from "./providers/user-provider"
 
 const formNewRiderSchema = z.object({
   name: z.string().min(1).max(255).refine(data => data.trim() !== '', {
@@ -46,6 +47,7 @@ const formNewDriverSchema = z.object({
 
 export default function Home() {
   const router = useRouter();
+  const { loginRider } = useUser()
 
   const riderForm = useForm<z.infer<typeof formNewRiderSchema>>({
     resolver: zodResolver(formNewRiderSchema),
@@ -55,17 +57,22 @@ export default function Home() {
     resolver: zodResolver(formNewDriverSchema),
   })
 
-  function onSubmitNewRider(values: z.infer<typeof formNewRiderSchema>) {
-    // TODO: API integration
+  const onSubmitNewRider = async (values: z.infer<typeof formNewRiderSchema>) => {
     console.log(values)
-    router.push('/rider');
+    const loggedSuccessfully = await loginRider({ name: values.name })
+    if (loggedSuccessfully) {
+      router.push('/rider');
+    } else {
+      // todo show message
+    }
   }
 
-  function onSubmitNewDriver(values: z.infer<typeof formNewDriverSchema>) {
+  const onSubmitNewDriver = (values: z.infer<typeof formNewDriverSchema>) => {
     // TODO: API integration
     console.log(values)
     router.push('/driver');
   }
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

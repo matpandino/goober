@@ -1,53 +1,81 @@
-'use client'
+"use client";
 
-import { Layout } from "@/components/ui/app-layout"
-import { SearchForTripArgs, SearchTrip } from "./_components/search-trip"
-import Map from "@/components/ui/map"
-import useComponentDimensions from "@/hooks/useComponentDimensions"
-import { useRef, useState } from "react"
-import { DirectionsRenderer, Marker } from "@react-google-maps/api"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Layout } from "@/components/ui/app-layout";
+import { SearchForTripArgs, SearchTrip } from "./_components/search-trip";
+import Map from "@/components/ui/map";
+import useComponentDimensions from "@/hooks/useComponentDimensions";
+import { useRef, useState } from "react";
+import { DirectionsRenderer, Marker } from "@react-google-maps/api";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { useUser } from "../providers/user-provider";
+import { Button } from "../../components/ui/button";
+import { useRouter } from "next/navigation";
 
-type Coordinates = { lat: number, lng: number }
+type Coordinates = { lat: number; lng: number };
 
 export default function Page() {
-    const ref = useRef<HTMLDivElement>(null)
-    const { height: mapHeight, width: mapWidth } = useComponentDimensions(ref)
-    const [direction, setDirection] = useState<google.maps.DirectionsResult | null>(null)
+    const router = useRouter();
+    const { rider, logoutRider } = useUser();
+    const ref = useRef<HTMLDivElement>(null);
+    const { height: mapHeight, width: mapWidth } = useComponentDimensions(ref);
+    const [direction, setDirection] =
+        useState<google.maps.DirectionsResult | null>(null);
 
-    const calculateRoute = async (origin: Coordinates, destination: Coordinates) => {
+    const calculateRoute = async (
+        origin: Coordinates,
+        destination: Coordinates
+    ) => {
         try {
-            const directionService = new google.maps.DirectionsService()
+            const directionService = new google.maps.DirectionsService();
             const result = await directionService!.route({
                 origin,
                 destination,
                 travelMode: google.maps.TravelMode.DRIVING,
             });
-            console.log('result:', result)
+            console.log("result:", result);
             setDirection(result);
         } catch (error) {
-            console.error('calculate route error', error)
+            console.error("calculate route error", error);
         }
-    }
+    };
 
     const clearRoute = async () => {
-        setDirection(null)
-    }
+        setDirection(null);
+    };
 
     const handleSearch = async (route: SearchForTripArgs) => {
         // change status: waiting for driver
-
         // if (route) {
         //     await calculateRoute({ lat: route.from.lat, lng: route.from.lng }, { lat: route.to.lat, lng: route.to.lng })
         // } else {
         //     clearRoute()
         // }
-    }
+    };
 
+    const handleLogout = () => {
+        logoutRider()
+        router.push('/')
+    }
 
     return (
         <Layout
-            header={<>Goober</>}
+            header={
+                <div className="flex flex-1 justify-between">
+                    <span>Goober</span>
+                    {rider?.id && (
+                        <>
+                            <span>Hello {rider?.name}!</span>{" "}
+                            <Button onClick={handleLogout}>Logout</Button>
+                        </>
+                    )}
+                </div>
+            }
             leftContent={
                 <div className="flex flex-col w-full gap-2 bg-background">
                     <SearchTrip onSearch={handleSearch} />
@@ -77,13 +105,17 @@ export default function Page() {
             }
             rightContent={
                 <div ref={ref} className="bg-red-300 w-full rounded-md">
-                    <Map mapContainerStyle={{ height: mapHeight, width: mapWidth, borderRadius: 10 }}>
-                        {direction && (
-                            <DirectionsRenderer directions={direction} />
-                        )}
+                    <Map
+                        mapContainerStyle={{
+                            height: mapHeight,
+                            width: mapWidth,
+                            borderRadius: 10,
+                        }}
+                    >
+                        {direction && <DirectionsRenderer directions={direction} />}
                     </Map>
                 </div>
             }
         />
-    )
+    );
 }
