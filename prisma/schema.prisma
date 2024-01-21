@@ -13,8 +13,54 @@ datasource db {
 model Rider {
   id String @id @default(uuid())
 
-  name String 
+  name String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  riders Ride[]
+}
+
+model Driver {
+  id String @id @default(uuid())
+
+  name   String
+  car    String
+  riders Ride[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum RideStatus {
+  REQUESTED
+  ACCEPTED
+  COMPLETED
+  CANCELLED
+}
+
+model Ride {
+  id String @id @default(uuid())
+
+  rider       Rider      @relation(fields: [riderId], references: [id])
+  riderId     String
+  driver      Driver     @relation(fields: [driverId], references: [id])
+  driverId    String
+  status      RideStatus @default(REQUESTED)
+  fromName    String
+  fromLat     String
+  fromLng     String
+  toName      String
+  toLat       String
+  toLng       String
+  estDuration Int
+  distance    Int
+
+  cancelledAt DateTime?
+  completedAt DateTime?
+  startedAt   DateTime?
+  acceptedAt  DateTime?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
