@@ -34,20 +34,14 @@ const formNewDriverSchema = z.object({
   name: z.string().min(1).max(255).refine(data => data.trim() !== '', {
     message: 'Field is required',
   }),
-  carModel: z.string().min(1).max(255).refine(data => data.trim() !== '', {
-    message: 'Field is required',
-  }),
-  carPlate: z.string().min(1).max(255).refine(data => data.trim() !== '', {
-    message: 'Field is required',
-  }),
-  carColor: z.string().min(1).max(255).refine(data => data.trim() !== '', {
+  car: z.string().min(1).max(255).refine(data => data.trim() !== '', {
     message: 'Field is required',
   }),
 })
 
 export default function Home() {
   const router = useRouter();
-  const { loginRider } = useUser()
+  const { loginRider, loginDriver } = useUser()
 
   const riderForm = useForm<z.infer<typeof formNewRiderSchema>>({
     resolver: zodResolver(formNewRiderSchema),
@@ -67,10 +61,14 @@ export default function Home() {
     }
   }
 
-  const onSubmitNewDriver = (values: z.infer<typeof formNewDriverSchema>) => {
-    // TODO: API integration
+  const onSubmitNewDriver = async (values: z.infer<typeof formNewDriverSchema>) => {
     console.log(values)
-    router.push('/driver');
+    const loggedSuccessfully = await loginDriver({ name: values.name, car: values.car })
+    if (loggedSuccessfully) {
+      router.push('/driver');
+    } else {
+      // todo show message
+    }
   }
 
 
@@ -147,7 +145,7 @@ export default function Home() {
                   />
                   <FormField
                     control={driverForm.control}
-                    name="carModel"
+                    name="car"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Car model</FormLabel>
@@ -158,7 +156,7 @@ export default function Home() {
                       </FormItem>
                     )}
                   />
-                  <FormField
+                  {/* <FormField
                     control={driverForm.control}
                     name="carPlate"
                     render={({ field }) => (
@@ -183,7 +181,7 @@ export default function Home() {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
                 </CardContent>
                 <CardFooter>
                   <Button type="submit">Continue</Button>

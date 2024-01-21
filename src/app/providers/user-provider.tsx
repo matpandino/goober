@@ -56,12 +56,29 @@ const UserProvider = ({ children }: UserProviderProps) => {
         }
     }, []);
 
-    const loginDriver = ({ name, car }: DriverDTO) => {
-        // const newDriver: Driver = { name, car };
-        // todo: api call
-        // setDriver(newDriver);
+    const loginDriver = async ({ name, car }: DriverDTO) => {
+        try {
+            const newDriver: DriverDTO = { name, car };
 
-        // localStorage.setItem(DRIVER_KEY, JSON.stringify(newDriver));
+            const data = await fetch('/api/driver', {
+                method: 'POST',
+                body: JSON.stringify({ name, car }),
+                headers: { 'Content-Type': 'application/json' }
+            })
+
+            const riderData = await data.json()
+
+            if (riderData) {
+                setDriver(riderData as unknown as Driver);
+                localStorage.setItem(DRIVER_KEY, JSON.stringify(newDriver));
+                return true
+            }
+            return false
+        } catch (error) {
+            console.error('Login Rider error: ', error)
+            return false
+        }
+
     };
 
     const loginRider = async ({ name }: RiderDTO) => {

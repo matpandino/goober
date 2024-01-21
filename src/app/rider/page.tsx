@@ -16,7 +16,7 @@ import {
 import { useUser } from "../providers/user-provider";
 import { Button } from "../../components/ui/button";
 import { useRouter } from "next/navigation";
-import SocketIndicator from "./_components/socket-indicator";
+import SocketIndicator from "@/components/ui/socket-indicator";
 
 type Coordinates = { lat: number; lng: number };
 
