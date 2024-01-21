@@ -16,6 +16,7 @@ import {
 import { useUser } from "../providers/user-provider";
 import { Button } from "../../components/ui/button";
 import { useRouter } from "next/navigation";
+import SocketIndicator from "./_components/socket-indicator";
 
 type Coordinates = { lat: number; lng: number };
 
@@ -68,6 +69,9 @@ export default function Page() {
             header={
                 <div className="flex flex-1 justify-between">
                     <span>Goober</span>
+                    <div>
+                        <SocketIndicator />
+                    </div>
                     {rider?.id && (
                         <>
                             <span>Hello {rider?.name}!</span>{" "}
