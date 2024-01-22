@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import url from "URL";
 
 export async function POST(request: Request) {
     const { name } = await request.json()
@@ -7,4 +8,25 @@ export async function POST(request: Request) {
     const riderCreated = await prisma.rider.create({ data: { name } })
 
     return NextResponse.json({ ...riderCreated }, { status: 200 })
+}
+export async function GET(request: NextRequest) {
+    try {
+        const id = request.nextUrl.searchParams.get('id')
+        if (!!id) {
+            const rider = await prisma.rider.findFirst({
+                where: { id }, include: {
+                    rides: {
+                        include: {
+                            driver: true,
+                        }
+                    }
+                }
+            })
+            return NextResponse.json({ ...rider }, { status: 200 })
+        }
+        return new NextResponse("Id not found", { status: 400 });
+    } catch (error) {
+        console.log("Error getting rider", error);
+        return new NextResponse("Internal Error", { status: 500 });
+    }
 }

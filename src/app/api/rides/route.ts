@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         console.log('riderCreated', riderCreated)
         return NextResponse.json({ ...riderCreated }, { status: 200 })
     } catch (error) {
-        console.log("Rides", error);
+        console.log("Error creating ride", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
