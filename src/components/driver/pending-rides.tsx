@@ -18,6 +18,7 @@ const PendingRides = () => {
     queryKey: ['pendingRides'],
     queryFn: async () =>
       await fetch('/api/rides/pending', {
+        cache: 'no-store',
         next: {
           revalidate: 10,
         },
