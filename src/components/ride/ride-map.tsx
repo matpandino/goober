@@ -36,7 +36,7 @@ const RideMap = ({ children }: { children?: ReactNode }) => {
 
 
     return (
-        <div ref={ref} className="bg-red-300 w-full rounded-md">
+        <div ref={ref} className="w-full rounded-md">
             <Map
                 mapContainerStyle={{
                     height: mapHeight,
