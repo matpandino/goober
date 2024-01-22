@@ -18,7 +18,7 @@ model Rider {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  riders Ride[]
+  rides Ride[]
 }
 
 model Driver {
@@ -26,7 +26,7 @@ model Driver {
 
   name   String
   car    String
-  riders Ride[]
+  rides Ride[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
