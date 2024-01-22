@@ -1,6 +1,6 @@
 'use client'
 
-import { cancelRide } from '@/actions/cancelRideAction'
+import { cancelRide } from '@/actions/cancel-ride-actions'
 import { Button } from '@/components/ui/button'
 import { useTransition } from 'react'
 
