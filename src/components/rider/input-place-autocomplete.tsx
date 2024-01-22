@@ -7,7 +7,6 @@ import {
   CommandList,
 } from '@/components/ui/command'
 import { Input } from '@/components/ui/input'
-import React from 'react'
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -62,9 +61,9 @@ const InputPlaceAutocomplete = ({
       {status === 'OK' && data.length > 0 && (
         <CommandList className="absolute z-10 bg-background mt-12 border rounded-md">
           <CommandGroup>
-            {data.map(({ place_id, description }) => (
+            {data.map(({ place_id: placeId, description }) => (
               <CommandItem
-                key={place_id}
+                key={placeId}
                 value={description}
                 onSelect={handleSelect}
               >

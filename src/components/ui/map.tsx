@@ -13,7 +13,7 @@ const center = {
   lng: -73.954298,
 }
 
-interface MapProps extends GoogleMapProps { }
+interface MapProps extends GoogleMapProps {}
 
 function Map(props: MapProps) {
   const { latitude, longitude } = usePosition(false)

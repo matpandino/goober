@@ -10,7 +10,7 @@ import {
 import { io as ClientIO } from 'socket.io-client'
 
 interface SocketContextType {
-  socket: any | null
+  socket: unknown | null
   isConnected: boolean
 }
 
@@ -24,6 +24,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const socketInstance = new (ClientIO as any)(
       process.env.NEXT_PUBLIC_SITE_URL!,
       {

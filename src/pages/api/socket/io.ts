@@ -11,6 +11,7 @@ export const config = {
 
 const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
   if (!res.socket.server.io) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const httpServer = res.socket.server as unknown as any
     const io = new ServerIO(httpServer, {
       path: '/api/socket/io',
