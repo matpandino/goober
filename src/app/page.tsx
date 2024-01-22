@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useUser } from "./providers/user-provider"
+import { useUser } from "@/components/providers/user-provider"
 
 const formNewRiderSchema = z.object({
   name: z.string().min(1).max(255).refine(data => data.trim() !== '', {

@@ -29,17 +29,12 @@ export const SearchTrip = ({ onSearch }: SearchTripProps) => {
         resolver: zodResolver(formSearchForTripSchema),
     })
 
-    const { from, to } = searchForTripForm.watch()
-
-    const canSearch = !!from?.lat && !!from?.lng && !!to?.lat && !!to?.lng
-
     const onSubmit = (values: z.infer<typeof formSearchForTripSchema>) => {
         console.log('searching: ', values)
         onSearch(values)
     }
 
     const handleSelectLocation = (locationInfo: SelectPlaceArgs, fieldName: 'from' | 'to') => {
-        console.log(fieldName, locationInfo)
         if (locationInfo) {
             searchForTripForm.setValue(`${fieldName}.name`, locationInfo?.name)
             searchForTripForm.setValue(`${fieldName}.lng`, locationInfo?.lng)
@@ -47,6 +42,7 @@ export const SearchTrip = ({ onSearch }: SearchTripProps) => {
         } else {
             searchForTripForm.resetField(`${fieldName}`)
         }
+        searchForTripForm.trigger()
     }
 
     return (
@@ -67,7 +63,7 @@ export const SearchTrip = ({ onSearch }: SearchTripProps) => {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button type="submit" disabled={!canSearch} className='w-full'>Search</Button>
+                        <Button type="submit" disabled={!searchForTripForm.formState.isValid} className='w-full'>Search</Button>
                     </CardFooter>
                 </Card>
             </form>

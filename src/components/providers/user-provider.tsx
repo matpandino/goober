@@ -25,7 +25,7 @@ interface Driver extends DriverDTO {
 interface UserContextType {
     rider: Rider | null;
     driver: Driver | null;
-    loginDriver: (loginInfo: DriverDTO) => void;
+    loginDriver: (loginInfo: DriverDTO) => Promise<boolean>;
     loginRider: (loginInfo: RiderDTO) => Promise<boolean>;
     logoutDriver: () => void;
     logoutRider: () => void;

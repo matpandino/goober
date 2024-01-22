@@ -4,7 +4,7 @@ import { Layout } from "@/components/ui/app-layout";
 import Map from "@/components/ui/map";
 import useComponentDimensions from "@/hooks/useComponentDimensions";
 import { useRef, useState } from "react";
-import { DirectionsRenderer, Marker } from "@react-google-maps/api";
+import { DirectionsRenderer } from "@react-google-maps/api";
 import {
     Card,
     CardContent,
@@ -12,7 +12,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useUser } from "../providers/user-provider";
+import { useUser } from "@/components/providers/user-provider";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import SocketIndicator from "@/components/ui/socket-indicator";
