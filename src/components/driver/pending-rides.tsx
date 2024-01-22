@@ -45,14 +45,23 @@ const PendingRides = () => {
                   key={ride.id}
                   className="flex px-6 py-4 gap-2 text-sm justify-between items-center"
                 >
-                  <div className='flex-col'>
-                    <span><b>{ride.rider.name}</b> is pending a <b>{kmFormatter.format(ride.distance / 1000)}</b> ride</span>
+                  <div className="flex-col">
+                    <span>
+                      <b>{ride.rider.name}</b> is pending a{' '}
+                      <b>{kmFormatter.format(ride.distance / 1000)}</b> ride
+                    </span>
                     <br />
-                    <span className='text-slate-500 text-xs'><b>From:</b> <i>{ride.fromName}</i></span>
+                    <span className="text-slate-500 text-xs">
+                      <b>From:</b> <i>{ride.fromName}</i>
+                    </span>
                     <br />
-                    <span className='text-slate-500 text-xs'><b>To:</b> <i>{ride.toName}</i></span>
+                    <span className="text-slate-500 text-xs">
+                      <b>To:</b> <i>{ride.toName}</i>
+                    </span>
                     <br />
-                    <span className='text-base text-green-700'>{moneyFormatter.format(ride.price / 100)}</span>
+                    <span className="text-base text-green-700">
+                      {moneyFormatter.format(ride.price / 100)}
+                    </span>
                   </div>
                   <Button
                     disabled={isLoadingAccept}
@@ -67,7 +76,7 @@ const PendingRides = () => {
         )}
         {isLoading && <span>Loading</span>}
         {!isLoading && data.rides?.length === 0 && (
-          <span className='text-slate-500'>No pending rides at the moment</span>
+          <span className="text-slate-500">No pending rides at the moment</span>
         )}
       </CardContent>
     </Card>

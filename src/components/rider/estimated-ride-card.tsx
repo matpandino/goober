@@ -3,7 +3,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from '@/components/ui/card'
 import { Ride } from '@/types'
 import CancelRideButton from '../ride/cancel-ride-button'

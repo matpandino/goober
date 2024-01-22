@@ -36,11 +36,21 @@ export default function Home() {
                   {"Welcome back! Let's get a ride?"}
                 </CardDescription>
               </CardHeader>
-              <CardFooter className='flex-col gap-2'>
-                <Button className='w-full' onClick={() => router.push('/rider')}>Continue</Button>
-                <Button className='w-full bg-red-600 hover:bg-red-500' onClick={() => {
-                  logoutRider()
-                }}>Logout</Button>
+              <CardFooter className="flex-col gap-2">
+                <Button
+                  className="w-full"
+                  onClick={() => router.push('/rider')}
+                >
+                  Continue
+                </Button>
+                <Button
+                  className="w-full bg-red-600 hover:bg-red-500"
+                  onClick={() => {
+                    logoutRider()
+                  }}
+                >
+                  Logout
+                </Button>
               </CardFooter>
             </Card>
           )}
@@ -56,11 +66,21 @@ export default function Home() {
                   {"Welcome back! Let's start a ride?"}
                 </CardDescription>
               </CardHeader>
-              <CardFooter className='flex-col gap-2'>
-                <Button className='w-full' onClick={() => router.push('/driver')}>Continue</Button>
-                <Button className='w-full bg-red-600 hover:bg-red-500' onClick={() => {
-                  logoutDriver()
-                }}>Logout</Button>
+              <CardFooter className="flex-col gap-2">
+                <Button
+                  className="w-full"
+                  onClick={() => router.push('/driver')}
+                >
+                  Continue
+                </Button>
+                <Button
+                  className="w-full bg-red-600 hover:bg-red-500"
+                  onClick={() => {
+                    logoutDriver()
+                  }}
+                >
+                  Logout
+                </Button>
               </CardFooter>
             </Card>
           )}

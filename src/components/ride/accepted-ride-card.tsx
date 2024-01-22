@@ -5,13 +5,21 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from '@/components/ui/card'
 import { Ride } from '@/types'
 import CancelRideButton from './cancel-ride-button'
 import CardRideContentInfo from './card-ride-content-info'
 
-const AcceptedRideCard = ({ ride, showDriverInfo = true, showRiderInfo = true }: { ride: Ride, showDriverInfo?: boolean, showRiderInfo?: boolean }) => {
+const AcceptedRideCard = ({
+  ride,
+  showDriverInfo = true,
+  showRiderInfo = true,
+}: {
+  ride: Ride
+  showDriverInfo?: boolean
+  showRiderInfo?: boolean
+}) => {
   return (
     <Card className="bg-slate-100">
       <CardHeader>
@@ -23,7 +31,11 @@ const AcceptedRideCard = ({ ride, showDriverInfo = true, showRiderInfo = true }:
           <b>To:</b> <i>{ride.toName}</i>
         </CardDescription>
       </CardHeader>
-      <CardRideContentInfo ride={ride} showRiderInfo={showRiderInfo} showDriverInfo={showDriverInfo} />
+      <CardRideContentInfo
+        ride={ride}
+        showRiderInfo={showRiderInfo}
+        showDriverInfo={showDriverInfo}
+      />
       <CardFooter>
         <CancelRideButton />
       </CardFooter>

@@ -8,7 +8,7 @@ import { useSocket } from './socket-provider'
 import { useUser } from './user-provider'
 
 interface CurrentRideContextType {
-  setCurrentRide: React.Dispatch<React.SetStateAction<(Ride | null)>>
+  setCurrentRide: React.Dispatch<React.SetStateAction<Ride | null>>
   currentRide: Ride | null
 }
 
@@ -19,21 +19,21 @@ const CurrentRideContext = createContext<CurrentRideContextType | undefined>(
 const CurrentRideProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentRide, setCurrentRide] = useState<Ride | null>(null)
   const { socket, isConnected } = useSocket()
-  const pathname = usePathname();
+  const pathname = usePathname()
   const { driver, rider } = useUser()
 
-  const { data } = useQuery(
-    {
-      queryKey: ['currentRide', driver?.id, rider?.id],
-      queryFn: async () => {
-        const isRiderApp = pathname?.includes('rider')
-        const apiUrl = isRiderApp ? `/api/rider/${rider?.id}` : `/api/driver/${driver?.id}`
-        return await fetch(apiUrl).then(async (res) => await res.json())
-      },
-      refetchInterval: isConnected ? false : 1000,
-      // refetchInterval: 1000,
-    }
-  )
+  const { data } = useQuery({
+    queryKey: ['currentRide', driver?.id, rider?.id],
+    queryFn: async () => {
+      const isRiderApp = pathname?.includes('rider')
+      const apiUrl = isRiderApp
+        ? `/api/rider/${rider?.id}`
+        : `/api/driver/${driver?.id}`
+      return await fetch(apiUrl).then(async (res) => await res.json())
+    },
+    refetchInterval: isConnected ? false : 1000,
+    // refetchInterval: 1000,
+  })
 
   useEffect(() => {
     if (data) {

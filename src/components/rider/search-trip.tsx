@@ -34,7 +34,10 @@ interface SearchTripProps {
   disableSearchButton?: boolean
 }
 
-export const SearchTrip = ({ onSearch, disableSearchButton = false }: SearchTripProps) => {
+export const SearchTrip = ({
+  onSearch,
+  disableSearchButton = false,
+}: SearchTripProps) => {
   const searchForTripForm = useForm<z.infer<typeof formSearchForTripSchema>>({
     resolver: zodResolver(formSearchForTripSchema),
   })
@@ -86,7 +89,9 @@ export const SearchTrip = ({ onSearch, disableSearchButton = false }: SearchTrip
           <CardFooter>
             <Button
               type="submit"
-              disabled={disableSearchButton || !searchForTripForm.formState.isValid }
+              disabled={
+                disableSearchButton || !searchForTripForm.formState.isValid
+              }
               className="w-full"
             >
               Search

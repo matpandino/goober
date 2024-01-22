@@ -3,7 +3,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from '@/components/ui/card'
 import { type Ride } from '@prisma/client'
 

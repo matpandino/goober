@@ -16,7 +16,7 @@ const useDirections = () => {
     destination: Coordinates,
   ) => {
     try {
-      if(!google) {
+      if (!google) {
         console.log('google is not available')
         throw new Error('Google service is not ready')
       }

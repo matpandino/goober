@@ -12,9 +12,7 @@ export default function Page() {
     <Layout
       leftContent={
         <div className="flex flex-col w-full gap-2 bg-background">
-          {currentRide && (
-            <CurrentRide ride={currentRide} />
-          )}
+          {currentRide && <CurrentRide ride={currentRide} />}
           {!currentRide && <PendingRides />}
         </div>
       }

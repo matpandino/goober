@@ -12,7 +12,7 @@ interface LayoutProps {
 }
 
 export const Layout = ({ leftContent, rightContent }: LayoutProps) => {
-  const pathname = usePathname();
+  const pathname = usePathname()
   const router = useRouter()
   const { driver, rider, logoutRider, logoutDriver } = useUser()
   const isDriverApp = !!pathname?.includes('driver')
@@ -35,18 +35,20 @@ export const Layout = ({ leftContent, rightContent }: LayoutProps) => {
           aria-label="Global"
         >
           <div>
-            <span className='mr-2'>Goober <b>{isDriverApp ? 'driver': 'rider'}</b></span>
+            <span className="mr-2">
+              Goober <b>{isDriverApp ? 'driver' : 'rider'}</b>
+            </span>
             <SocketIndicator />
           </div>
           {isDriverApp && driver?.id && (
             <div>
-              <span className='mr-2'>Hello {driver?.name}!</span>{' '}
+              <span className="mr-2">Hello {driver?.name}!</span>{' '}
               <Button onClick={handleLogout}>Logout</Button>
             </div>
           )}
           {!isDriverApp && rider?.id && (
             <div>
-              <span className='mr-2'>Hello {rider?.name}!</span>{' '}
+              <span className="mr-2">Hello {rider?.name}!</span>{' '}
               <Button onClick={handleLogout}>Logout</Button>
             </div>
           )}

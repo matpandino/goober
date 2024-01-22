@@ -17,7 +17,10 @@ export async function POST(request: Request) {
       toName,
     } = await request.json()
 
-    const ridePrice = calculateRidePrice({ distanceMeters: distance, durationSeconds: estDuration })
+    const ridePrice = calculateRidePrice({
+      distanceMeters: distance,
+      durationSeconds: estDuration,
+    })
     // TODO: check if rider has ongoing ride requests that are REQUESTED or ACCEPTED cancel all
 
     const riderCreated = await prisma.ride.create({
@@ -33,9 +36,9 @@ export async function POST(request: Request) {
         toName,
         rider: {
           connect: {
-            id: riderId
-          }
-        }
+            id: riderId,
+          },
+        },
       } as RideCreateBody,
     })
     console.log('riderCreated', riderCreated)
