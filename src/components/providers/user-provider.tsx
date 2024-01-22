@@ -1,5 +1,6 @@
 'use client'
 
+import { Driver, Rider } from '@prisma/client';
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 
 interface RiderDTO {
@@ -11,20 +12,10 @@ interface DriverDTO {
     car: string;
 }
 
-interface Rider extends RiderDTO {
-    id: string
-    createdAt: string
-    updatedAt: string
-}
-interface Driver extends DriverDTO {
-    id: string
-    createdAt: string
-    updatedAt: string
-}
-
 interface UserContextType {
     rider: Rider | null;
     driver: Driver | null;
+    syncUsers: () => Promise<void>
     loginDriver: (loginInfo: DriverDTO) => Promise<boolean>;
     loginRider: (loginInfo: RiderDTO) => Promise<boolean>;
     logoutDriver: () => void;
@@ -55,6 +46,17 @@ const UserProvider = ({ children }: UserProviderProps) => {
             setRider(storedRider);
         }
     }, []);
+
+    const syncUsers = async () => {
+        if (rider) {
+            const riderResponse = await fetch(`/api/rider?id=${rider.id}`)
+            if (riderResponse.status === 200) {
+                const riderData = await riderResponse.json()
+                localStorage.setItem(RIDER_KEY, JSON.stringify(riderData));
+                setRider(riderData)
+            }
+        }
+    }
 
     const loginDriver = async ({ name, car }: DriverDTO) => {
         try {
@@ -114,7 +116,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
     };
 
     return (
-        <UserContext.Provider value={{ rider, driver, logoutRider, logoutDriver, loginDriver, loginRider }}>
+        <UserContext.Provider value={{ syncUsers, rider, driver, logoutRider, logoutDriver, loginDriver, loginRider }}>
             {children}
         </UserContext.Provider>
     );
