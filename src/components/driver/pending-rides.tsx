@@ -14,7 +14,7 @@ const PendingRides = () => {
   const { acceptRide } = useRideActions()
   const [isLoadingAccept, setIsLoadingAccept] = useState(false)
 
-  const { isLoading, data, refetch } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ['pendingRides'],
     queryFn: async () =>
       await fetch('/api/rides/pending').then(async (res) => await res.json()),

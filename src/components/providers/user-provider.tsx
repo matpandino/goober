@@ -59,8 +59,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
 
   const loginDriver = async ({ name, car }: DriverDTO) => {
     try {
-      const newDriver: DriverDTO = { name, car }
-
       const data = await fetch('/api/driver', {
         method: 'POST',
         body: JSON.stringify({ name, car }),
