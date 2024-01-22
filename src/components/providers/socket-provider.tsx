@@ -10,7 +10,8 @@ import {
 import { io as ClientIO } from 'socket.io-client'
 
 interface SocketContextType {
-  socket: unknown | null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  socket: any | null
   isConnected: boolean
 }
 
