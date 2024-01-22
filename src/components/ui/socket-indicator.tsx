@@ -10,7 +10,7 @@ const SocketIndicator = () => {
       {isConnected ? (
         <Badge className="bg-green-600">live</Badge>
       ) : (
-        <Badge className="bg-red-600">1s live</Badge>
+        <Badge className="bg-red-600">polling</Badge>
       )}
     </>
   )

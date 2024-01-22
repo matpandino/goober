@@ -22,7 +22,7 @@ const PendingRides = () => {
           revalidate: 10,
         },
       }).then(async (res) => await res.json()),
-    refetchInterval: 1000,
+    refetchInterval: 10000,
   })
 
   const handleAcceptRide = async (ride: Ride) => {
