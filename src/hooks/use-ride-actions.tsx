@@ -1,14 +1,11 @@
 import { useRide } from '@/components/providers/current-ride-provider'
 import { Ride } from '@/types'
 import { RideStatus } from '@prisma/client'
-import { useSocket } from '../components/providers/socket-provider'
 import useDirections, { Coordinates } from './use-directions'
 
 const useRideActions = () => {
-    const { setCurrentRide, currentRide } = useRide()
+    const { setCurrentRide } = useRide()
     const { calculateDirections } = useDirections()
-
-    const { socket } = useSocket()
 
     const acceptRide = async (ride: Ride, driverId: string) => {
         try {
@@ -24,7 +21,7 @@ const useRideActions = () => {
                 }),
             })
             if (response.ok) {
-                setCurrentRide(ride)
+                setCurrentRide({ ...ride, status: RideStatus.ACCEPTED })
             } else {
                 console.error('Failed to accept ride:', response.statusText)
             }
@@ -46,8 +43,7 @@ const useRideActions = () => {
                 }),
             })
             if (response.ok) {
-                const rideKey = `ride:${ride.id}:update`;
-                socket?.emit(rideKey, 'UPDATE')
+                setCurrentRide({ ...ride, status: RideStatus.CANCELLED })
             } else {
                 console.error('Failed to cancel ride:', response.statusText)
             }
@@ -69,7 +65,7 @@ const useRideActions = () => {
                 }),
             })
             if (response.ok) {
-                setCurrentRide(ride)
+                setCurrentRide({ ...ride, status: RideStatus.COMPLETED })
             } else {
                 console.error('Failed to finish ride:', response.statusText)
             }
