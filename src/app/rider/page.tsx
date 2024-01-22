@@ -1,74 +1,32 @@
 'use client'
 
+import { useRide } from '@/components/providers/current-ride-provider'
 import { useUser } from '@/components/providers/user-provider'
 import CurrentRide from '@/components/rider/current-ride-card'
 import {
-  SearchTrip,
-  type SearchForTripArgs,
+  SearchTrip
 } from '@/components/rider/search-trip'
 import { Layout } from '@/components/ui/app-layout'
 import { Button } from '@/components/ui/button'
-import Map from '@/components/ui/map'
 import SocketIndicator from '@/components/ui/socket-indicator'
-import useComponentDimensions from '@/hooks/use-component-dimensions'
-import useDirections from '@/hooks/use-directions'
+import { Coordinates } from '@/hooks/use-directions'
+import useRideActions from '@/hooks/use-ride-actions'
 import { RideStatus } from '@prisma/client'
-import { DirectionsRenderer } from '@react-google-maps/api'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef } from 'react'
 
 export default function Page() {
   const router = useRouter()
-  const { rider, logoutRider, syncUsers } = useUser()
-  const ref = useRef<HTMLDivElement>(null)
-  const { height: mapHeight, width: mapWidth } = useComponentDimensions(ref)
-  const { calculateDirections, clearDirections, direction } = useDirections()
+  const { rider, logoutRider } = useUser()
+  const { currentRide } = useRide()
+  const { searchRide } = useRideActions()
 
-  const activeRide = rider?.rides?.[rider?.rides?.length - 1] || null
-
-  useEffect(() => {
-    syncUsers()
-  }, [])
-
-  const handleSearch = async (route: SearchForTripArgs) => {
+  const handleSearch = async ({ destination, origin }: { origin: Coordinates, destination: Coordinates }) => {
     try {
-      if (route) {
-        const calculatedRoute = await calculateDirections(
-          { lat: route.from.lat, lng: route.from.lng },
-          { lat: route.to.lat, lng: route.to.lng },
-        )
-        if (calculatedRoute) {
-          const directionDetails = calculatedRoute!.routes[0]?.legs[0]
-          if (!directionDetails) {
-            // todo: no direction found
-            console.error('direction not found')
-            return
-          }
-
-          const newRideResponse = await fetch('/api/rides', {
-            body: JSON.stringify({
-              riderId: rider?.id,
-              estDuration: directionDetails.duration!.value,
-              toName: directionDetails.start_address,
-              toLat: route.to.lat,
-              toLng: route.to.lng,
-              fromLat: route.from.lat,
-              fromLng: route.from.lng,
-              fromName: directionDetails.end_address,
-              distance: directionDetails.distance?.value,
-            }),
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-          })
-          if (newRideResponse.status === 200) {
-            await syncUsers()
-          }
-        }
-      } else {
-        clearDirections()
+      if (!rider?.id) {
+        throw new Error('Rider is not present')
       }
+      await searchRide({ destination, origin, riderId: rider.id })
     } catch (error) {
-      clearDirections()
       console.error('Error searching route', error)
     }
   }
@@ -77,6 +35,10 @@ export default function Page() {
     logoutRider()
     router.push('/')
   }
+
+  const showRideSearch = (!currentRide ||
+    currentRide.status === RideStatus.CANCELLED ||
+    currentRide.status === RideStatus.COMPLETED)
 
   return (
     <Layout
@@ -96,27 +58,13 @@ export default function Page() {
       }
       leftContent={
         <div className="flex flex-col w-full gap-2 bg-background">
-          {(!activeRide ||
-            activeRide.status === RideStatus.CANCELLED ||
-            activeRide.status === RideStatus.COMPLETED) && (
-            <SearchTrip onSearch={handleSearch} />
+          {(showRideSearch) && (
+            <SearchTrip onSearch={({ from, to }) => handleSearch({ origin: from, destination: to })} />
           )}
-          {activeRide && <CurrentRide ride={activeRide} />}
+          {currentRide && <CurrentRide ride={currentRide} />}
         </div>
       }
-      rightContent={
-        <div ref={ref} className="bg-red-300 w-full rounded-md">
-          <Map
-            mapContainerStyle={{
-              height: mapHeight,
-              width: mapWidth,
-              borderRadius: 10,
-            }}
-          >
-            {direction && <DirectionsRenderer directions={direction} />}
-          </Map>
-        </div>
-      }
+      // rightContent={<RideMap />}
     />
   )
 }

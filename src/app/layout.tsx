@@ -1,10 +1,11 @@
+import { CurrentRideProvider } from '@/components/providers/current-ride-provider'
+import { SocketProvider } from '@/components/providers/socket-provider'
+import { UserProvider } from '@/components/providers/user-provider'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
+import { QueryProvider } from '../components/providers/query-provider'
 import './globals.css'
-import { UserProvider } from '@/components/providers/user-provider'
-import { SocketProvider } from '@/components/providers/socket-provider'
-import { CurrentRideProvider } from '@/components/providers/current-ride-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,9 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SocketProvider>
-          <UserProvider>
-            <CurrentRideProvider>{children}</CurrentRideProvider>
-          </UserProvider>
+          <QueryProvider>
+            <UserProvider>
+              <CurrentRideProvider>{children}</CurrentRideProvider>
+            </UserProvider>
+          </QueryProvider>
         </SocketProvider>
       </body>
       <Script

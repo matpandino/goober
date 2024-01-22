@@ -41,7 +41,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       setIsConnected(false)
     })
 
-    setSocket(socket)
+    setSocket(socketInstance)
 
     return () => {
       socketInstance.disconnect()

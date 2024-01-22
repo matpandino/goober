@@ -18,7 +18,6 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIO) => {
     })
     res.socket.server.io = io
   }
-
   res.end()
 }
 

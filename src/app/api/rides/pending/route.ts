@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { RideStatus } from '@prisma/client'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
@@ -13,7 +13,6 @@ export async function GET() {
       },
     })
 
-    console.log('pending rides', rides)
     return NextResponse.json({ rides }, { status: 200 })
   } catch (error) {
     console.error('Error fetching rides', error)

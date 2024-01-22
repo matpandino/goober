@@ -8,7 +8,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { type Ride } from '@prisma/client'
-import CancelTripButton from '../ride/cancel-trip-button'
+import { formatSecondsToText, kmFormatter } from '../../lib/utils'
+import CancelRideButton from '../ride/cancel-ride-button'
 
 const AcceptedRideCard = ({ ride }: { ride: Ride }) => {
   return (
@@ -24,14 +25,14 @@ const AcceptedRideCard = ({ ride }: { ride: Ride }) => {
       </CardHeader>
       <CardContent>
         <span className="text-sm text-slate-600">
-          Duration: {ride.estDuration}
+          Duration: {formatSecondsToText(ride.estDuration)}
         </span>
         <br />
         <span className="text-sm text-slate-600">
-          Distance: {ride.distance}
+          Distance: {kmFormatter.format(ride.distance / 1000)}
         </span>
       </CardContent>
-      <CancelTripButton rideId={ride.id} />
+      <CancelRideButton/>
     </Card>
   )
 }

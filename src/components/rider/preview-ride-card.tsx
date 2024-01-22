@@ -2,18 +2,16 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from '@/components/ui/card'
 import { type Ride } from '@prisma/client'
-import CancelRideButton from '../ride/cancel-ride-button'
 
-const EstimatedRideCard = ({ ride }: { ride: Ride }) => {
+const PreviewRideCard = ({ ride }: { ride: Partial<Ride> }) => {
   return (
     <Card className="bg-slate-100">
       <CardHeader>
-        <CardTitle className="text-md">Searching for a driver</CardTitle>
+        <CardTitle className="text-md">Preview ride</CardTitle>
         <CardDescription className="text-xs">
           <b>From:</b> <i>{ride.fromName}</i>
         </CardDescription>
@@ -30,11 +28,8 @@ const EstimatedRideCard = ({ ride }: { ride: Ride }) => {
           Distance: {ride.distance}
         </span>
       </CardContent>
-      <CardFooter>
-        <CancelRideButton />
-      </CardFooter>
     </Card>
   )
 }
 
-export default EstimatedRideCard
+export default PreviewRideCard

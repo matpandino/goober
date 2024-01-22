@@ -2,11 +2,11 @@
 
 import { type Rider } from '@/types'
 import { type Driver } from '@prisma/client'
-import React, {
+import {
   createContext,
-  useState,
   useContext,
   useEffect,
+  useState,
   type ReactNode,
 } from 'react'
 
@@ -22,7 +22,6 @@ interface DriverDTO {
 interface UserContextType {
   rider: Rider | null
   driver: Driver | null
-  syncUsers: () => Promise<void>
   loginDriver: (loginInfo: DriverDTO) => Promise<boolean>
   loginRider: (loginInfo: RiderDTO) => Promise<boolean>
   logoutDriver: () => void
@@ -58,17 +57,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
     }
   }, [])
 
-  const syncUsers = async () => {
-    if (rider) {
-      const riderResponse = await fetch(`/api/rider?id=${rider.id}`)
-      if (riderResponse.status === 200) {
-        const riderData = await riderResponse.json()
-        localStorage.setItem(RIDER_KEY, JSON.stringify(riderData))
-        setRider(riderData)
-      }
-    }
-  }
-
   const loginDriver = async ({ name, car }: DriverDTO) => {
     try {
       const newDriver: DriverDTO = { name, car }
@@ -79,11 +67,11 @@ const UserProvider = ({ children }: UserProviderProps) => {
         headers: { 'Content-Type': 'application/json' },
       })
 
-      const riderData = await data.json()
+      const driverData = await data.json()
 
-      if (riderData) {
-        setDriver(riderData as unknown as Driver)
-        localStorage.setItem(DRIVER_KEY, JSON.stringify(newDriver))
+      if (driverData) {
+        setDriver(driverData as unknown as Driver)
+        localStorage.setItem(DRIVER_KEY, JSON.stringify(driverData))
         return true
       }
       return false
@@ -128,7 +116,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
-        syncUsers,
         rider,
         driver,
         logoutRider,

@@ -1,51 +1,29 @@
 'use client'
 
-import { useSocket } from '@/components/providers/socket-provider'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { type Ride } from '@/types'
-import { RideStatus } from '@prisma/client'
-import { useQuery } from 'react-query'
-import { useRide } from '../providers/current-ride-provider'
+import { useQuery } from '@tanstack/react-query'
+import useRideActions from '../../hooks/use-ride-actions'
 import { useUser } from '../providers/user-provider'
 import { Button } from '../ui/button'
 
 const PendingRides = () => {
-  const { isConnected } = useSocket()
   const { driver } = useUser()
-  const { setCurrentRide } = useRide()
+  const { acceptRide } = useRideActions()
 
-  const { isLoading, data, refetch } = useQuery(
-    'pendingRides',
-    async () =>
+  const { isLoading, data, refetch } = useQuery({
+    queryKey: ['pendingRides'],
+    queryFn: async () =>
       await fetch('/api/rides/pending').then(async (res) => await res.json()),
-    {
-      refetchInterval: !isConnected ? 1000 : undefined,
-    },
-  )
+    refetchInterval: 1000,
+  })
 
   const handleAcceptRide = async (ride: Ride) => {
-    try {
-      const response = await fetch('/api/rides', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          rideId: ride.id,
-          driverId: driver?.id,
-          status: RideStatus.ACCEPTED,
-        }),
-      })
-
-      if (response.ok) {
-        setCurrentRide(ride)
-        refetch()
-      } else {
-        console.error('Failed to cancel ride:', response.statusText)
-      }
-    } catch (error) {
-      console.error('Error accepting ride:', error)
+    if (!driver?.id) {
+      console.error('Driver not found')
+      return
     }
+    await acceptRide(ride, driver.id)
   }
 
   return (
@@ -65,9 +43,7 @@ const PendingRides = () => {
                   <span>{ride.rider.name} is pending a ride</span>
                   <Button
                     disabled={isLoading}
-                    onClick={async () => {
-                      await handleAcceptRide(ride)
-                    }}
+                    onClick={() => handleAcceptRide(ride)}
                   >
                     Accept
                   </Button>
