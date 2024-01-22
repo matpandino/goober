@@ -16,6 +16,7 @@ import { useUser } from "@/components/providers/user-provider";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import SocketIndicator from "@/components/ui/socket-indicator";
+import PendingRides from "@/components/driver/pending-rides";
 
 type Coordinates = { lat: number; lng: number };
 
@@ -81,29 +82,7 @@ export default function Page() {
             }
             leftContent={
                 <div className="flex flex-col w-full gap-2 bg-background">
-                    {/* <SearchTrip onSearch={handleSearch} /> */}
-                    <Card className="bg-slate-100">
-                        <CardHeader>
-                            <CardTitle className="text-md">Estimated trip</CardTitle>
-                            <CardDescription className="text-xs">
-                                <b>From:</b> <i>{direction?.routes[0].legs[0].end_address}</i>
-                            </CardDescription>
-                            <CardDescription className="text-xs">
-                                <b>To:</b> <i>{direction?.routes[0].legs[0].start_address}</i>
-                            </CardDescription>
-                        </CardHeader>
-                        {direction && (
-                            <CardContent>
-                                <span className="text-sm text-slate-600">
-                                    Duration: {direction?.routes[0].legs[0].duration?.text}
-                                </span>
-                                <br />
-                                <span className="text-sm text-slate-600">
-                                    Distance: {direction?.routes[0].legs[0]?.distance?.text}
-                                </span>
-                            </CardContent>
-                        )}
-                    </Card>
+                    <PendingRides />
                 </div>
             }
             rightContent={

@@ -10,8 +10,9 @@ import { DirectionsRenderer } from "@react-google-maps/api";
 import { useUser } from "@/components/providers/user-provider";
 import { Button } from "@/components/ui/button";
 import SocketIndicator from "@/components/ui/socket-indicator";
-import EstimatedTripCard from "@/components/rider/estimated-trip-card";
 import useDirections from "@/hooks/useDirections";
+import CurrentRide from "@/components/rider/current-ride-card";
+import { RideStatus } from "@prisma/client";
 
 export default function Page() {
     const router = useRouter();
@@ -19,6 +20,8 @@ export default function Page() {
     const ref = useRef<HTMLDivElement>(null);
     const { height: mapHeight, width: mapWidth } = useComponentDimensions(ref);
     const { calculateDirections, clearDirections, direction } = useDirections()
+
+    const activeRide = rider?.rides?.[rider?.rides?.length - 1] || null
 
     useEffect(() => {
         syncUsers()
@@ -87,8 +90,9 @@ export default function Page() {
             }
             leftContent={
                 <div className="flex flex-col w-full gap-2 bg-background">
-                    <SearchTrip onSearch={handleSearch} />
-                    {direction && (<EstimatedTripCard direction={direction} />)}
+                    {(!activeRide || activeRide!.status === RideStatus.CANCELLED || activeRide!.status === RideStatus.COMPLETED)
+                        && (<SearchTrip onSearch={handleSearch} />)}
+                    {activeRide && (<CurrentRide ride={activeRide} />)}
                 </div>
             }
             rightContent={

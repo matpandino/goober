@@ -1,6 +1,7 @@
 'use client'
 
-import { Driver, Rider } from '@prisma/client';
+import { Rider } from '@/types';
+import { Driver } from '@prisma/client';
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 
 interface RiderDTO {

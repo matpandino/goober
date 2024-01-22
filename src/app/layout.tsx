@@ -4,6 +4,7 @@ import Script from 'next/script'
 import './globals.css'
 import { UserProvider } from '@/components/providers/user-provider'
 import { SocketProvider } from '@/components/providers/socket-provider'
+import { CurrentRideProvider } from '@/components/providers/current-ride-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <SocketProvider>
           <UserProvider>
-            {children}
+            <CurrentRideProvider>
+              {children}
+            </CurrentRideProvider>
           </UserProvider>
         </SocketProvider>
       </body>

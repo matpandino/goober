@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import url from "URL";
 
 export async function POST(request: Request) {
     const { name } = await request.json()
@@ -14,12 +13,9 @@ export async function GET(request: NextRequest) {
         const id = request.nextUrl.searchParams.get('id')
         if (!!id) {
             const rider = await prisma.rider.findFirst({
-                where: { id }, include: {
-                    rides: {
-                        include: {
-                            driver: true,
-                        }
-                    }
+                where: { id },
+                include: {
+                    rides: true
                 }
             })
             return NextResponse.json({ ...rider }, { status: 200 })

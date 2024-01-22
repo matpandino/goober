@@ -13,3 +13,15 @@ export type NextApiResponseServerIO = NextApiResponse & {
 }
 
 export type RideCreateBody = Prisma.Args<typeof prisma.ride, 'create'>['data']
+
+export type Rider = Prisma.RiderGetPayload<{
+    include: {
+        rides: true;
+    };
+}>;
+
+export type Ride = Prisma.RideGetPayload<{
+    include: {
+        rider: true;
+    };
+}>;
