@@ -44,15 +44,15 @@ model Ride {
 
   rider       Rider      @relation(fields: [riderId], references: [id])
   riderId     String
-  driver      Driver     @relation(fields: [driverId], references: [id])
-  driverId    String
+  driver      Driver?    @relation(fields: [driverId], references: [id])
+  driverId    String?
   status      RideStatus @default(REQUESTED)
   fromName    String
-  fromLat     String
-  fromLng     String
+  fromLat     Float
+  fromLng     Float
   toName      String
-  toLat       String
-  toLng       String
+  toLat       Float
+  toLng       Float
   estDuration Int
   distance    Int
 
@@ -61,6 +61,6 @@ model Ride {
   startedAt   DateTime?
   acceptedAt  DateTime?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
