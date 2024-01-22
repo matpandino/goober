@@ -1,56 +1,34 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Layout } from "@/components/ui/app-layout";
 import { SearchForTripArgs, SearchTrip } from "@/components/rider/search-trip";
 import Map from "@/components/ui/map";
 import useComponentDimensions from "@/hooks/useComponentDimensions";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DirectionsRenderer } from "@react-google-maps/api";
 import { useUser } from "@/components/providers/user-provider";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import SocketIndicator from "@/components/ui/socket-indicator";
 import EstimatedTripCard from "@/components/rider/estimated-trip-card";
-
-type Coordinates = { lat: number; lng: number };
+import useDirections from "@/hooks/useDirections";
 
 export default function Page() {
     const router = useRouter();
-    const { rider, logoutRider } = useUser();
+    const { rider, logoutRider, syncUsers } = useUser();
     const ref = useRef<HTMLDivElement>(null);
     const { height: mapHeight, width: mapWidth } = useComponentDimensions(ref);
-    const [direction, setDirection] =
-        useState<google.maps.DirectionsResult | null>(null);
+    const { calculateDirections, clearDirections, direction } = useDirections()
 
-    const calculateRoute = async (
-        origin: Coordinates,
-        destination: Coordinates
-    ) => {
-        try {
-            const directionService = new google.maps.DirectionsService();
-            const result = await directionService!.route({
-                origin,
-                destination,
-                travelMode: google.maps.TravelMode.DRIVING,
-            });
-            console.log("result:", result);
-            return result
-        } catch (error) {
-            console.error("calculate route error", error);
-            return null
-        }
-    };
-
-    const clearRoute = async () => {
-        setDirection(null);
-    };
+    useEffect(() => {
+        syncUsers()
+    }, [])
 
     const handleSearch = async (route: SearchForTripArgs) => {
         try {
             if (route) {
-                const calculatedRoute = await calculateRoute({ lat: route.from.lat, lng: route.from.lng }, { lat: route.to.lat, lng: route.to.lng })
-                if (!!calculateRoute) {
-                    setDirection(calculatedRoute)
+                const calculatedRoute = await calculateDirections({ lat: route.from.lat, lng: route.from.lng }, { lat: route.to.lat, lng: route.to.lng })
+                if (!!calculateDirections) {
                     const directionDetails = calculatedRoute!.routes[0]?.legs[0]
                     if (!directionDetails) {
                         // todo: no direction found
@@ -58,7 +36,7 @@ export default function Page() {
                         return
                     }
 
-                    await fetch('/api/rides', {
+                    const newRideResponse = await fetch('/api/rides', {
                         body: JSON.stringify({
                             riderId: rider?.id,
                             estDuration: directionDetails.duration!.value,
@@ -73,11 +51,15 @@ export default function Page() {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' }
                     })
+                    if (newRideResponse.status === 200) {
+                        await syncUsers()
+                    }
                 }
             } else {
-                clearRoute()
+                clearDirections()
             }
         } catch (error) {
+            clearDirections()
             console.error('Error searching route', error)
         }
     };
