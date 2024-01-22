@@ -1,26 +1,35 @@
+import CompletedRideCard from '@/components/ride/completed-ride-card'
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from '@/components/ui/card'
-import { type Ride, RideStatus } from '@prisma/client'
+import { Ride } from '@/types'
+import { RideStatus } from '@prisma/client'
+import AcceptedRideCard from '../ride/accepted-ride-card'
+import CanceledRideCard from '../ride/canceled-ride-card'
+import CardRideContentInfo from '../ride/card-ride-content-info'
 import EstimatedRideCard from './estimated-ride-card'
-import AcceptedRideCard from './accepted-ride-card'
 
 const CurrentRide = ({ ride }: { ride: Ride }) => {
   if (ride.status === RideStatus.REQUESTED) {
     return <EstimatedRideCard ride={ride} />
   }
   if (ride.status === RideStatus.ACCEPTED) {
-    return <AcceptedRideCard ride={ride} />
+    return <AcceptedRideCard ride={ride} showRiderInfo={false} />
+  }
+  if (ride.status === RideStatus.COMPLETED) {
+    return <CompletedRideCard ride={ride} />
+  }
+  if (ride.status === RideStatus.CANCELLED) {
+    return <CanceledRideCard ride={ride} />
   }
 
   return (
     <Card className="bg-slate-100">
       <CardHeader>
-        <CardTitle className="text-md">{ride.status} trip</CardTitle>
+        <CardTitle className="text-lg">{ride.status} trip</CardTitle>
         <CardDescription className="text-xs">
           <b>From:</b> <i>{ride.fromName}</i>
         </CardDescription>
@@ -28,15 +37,7 @@ const CurrentRide = ({ ride }: { ride: Ride }) => {
           <b>To:</b> <i>{ride.toName}</i>
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <span className="text-sm text-slate-600">
-          Duration: {ride.estDuration}
-        </span>
-        <br />
-        <span className="text-sm text-slate-600">
-          Distance: {ride.distance}
-        </span>
-      </CardContent>
+      <CardRideContentInfo ride={ride} />
     </Card>
   )
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardDescription,
@@ -6,14 +8,14 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Ride } from '@/types'
-import CancelRideButton from '../ride/cancel-ride-button'
-import CardRideContentInfo from '../ride/card-ride-content-info'
+import CancelRideButton from './cancel-ride-button'
+import CardRideContentInfo from './card-ride-content-info'
 
-const EstimatedRideCard = ({ ride }: { ride: Ride }) => {
+const AcceptedRideCard = ({ ride, showDriverInfo = true, showRiderInfo = true }: { ride: Ride, showDriverInfo?: boolean, showRiderInfo?: boolean }) => {
   return (
     <Card className="bg-slate-100">
       <CardHeader>
-        <CardTitle className="text-md">Searching for a driver</CardTitle>
+        <CardTitle className="text-lg">Ongoing trip</CardTitle>
         <CardDescription className="text-xs">
           <b>From:</b> <i>{ride.fromName}</i>
         </CardDescription>
@@ -21,7 +23,7 @@ const EstimatedRideCard = ({ ride }: { ride: Ride }) => {
           <b>To:</b> <i>{ride.toName}</i>
         </CardDescription>
       </CardHeader>
-      <CardRideContentInfo ride={ride} showRiderInfo={false} />
+      <CardRideContentInfo ride={ride} showRiderInfo={showRiderInfo} showDriverInfo={showDriverInfo} />
       <CardFooter>
         <CancelRideButton />
       </CardFooter>
@@ -29,4 +31,4 @@ const EstimatedRideCard = ({ ride }: { ride: Ride }) => {
   )
 }
 
-export default EstimatedRideCard
+export default AcceptedRideCard

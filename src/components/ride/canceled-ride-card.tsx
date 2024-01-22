@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardDescription,
@@ -6,14 +8,14 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Ride } from '@/types'
-import CancelRideButton from '../ride/cancel-ride-button'
 import CardRideContentInfo from '../ride/card-ride-content-info'
+import ResetRide from '../ride/reset-ride-button'
 
-const EstimatedRideCard = ({ ride }: { ride: Ride }) => {
+const CanceledRideCard = ({ ride }: { ride: Ride }) => {
   return (
     <Card className="bg-slate-100">
       <CardHeader>
-        <CardTitle className="text-md">Searching for a driver</CardTitle>
+        <CardTitle className="text-lg text-red-600">Canceled ride</CardTitle>
         <CardDescription className="text-xs">
           <b>From:</b> <i>{ride.fromName}</i>
         </CardDescription>
@@ -21,12 +23,12 @@ const EstimatedRideCard = ({ ride }: { ride: Ride }) => {
           <b>To:</b> <i>{ride.toName}</i>
         </CardDescription>
       </CardHeader>
-      <CardRideContentInfo ride={ride} showRiderInfo={false} />
+      <CardRideContentInfo ride={ride} />
       <CardFooter>
-        <CancelRideButton />
+        <ResetRide />
       </CardFooter>
     </Card>
   )
 }
 
-export default EstimatedRideCard
+export default CanceledRideCard
