@@ -33,6 +33,7 @@ model Ride {
   toName      String
   estDuration Int
   distance    Int
+  price       Int        @default(500)
   cancelledAt DateTime?
   completedAt DateTime?
   startedAt   DateTime?

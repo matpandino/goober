@@ -1,6 +1,6 @@
 export const calculateRidePrice = ({ distanceMeters, durationSeconds }: { distanceMeters: number, durationSeconds: number }) => {
     // Price parameters
-    const basePrice = 500; // $5
+    const basePrice = 5; // $5
     const distanceRate = 1 / 1000; // $1 per km
     const durationRate = 0.25 / 60; // $0.25 per minute
 
@@ -11,5 +11,5 @@ export const calculateRidePrice = ({ distanceMeters, durationSeconds }: { distan
     // Calculate total cost
     let totalCost = basePrice + distanceCost + durationCost;
 
-    return totalCost.toFixed(2);
+    return Number(totalCost.toFixed(2)) * 100;
 }
