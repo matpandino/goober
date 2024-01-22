@@ -22,14 +22,13 @@ const CurrentRideProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const { driver, rider } = useUser()
 
-  const currentRideSocketKey = currentRide?.id ? `ride:${currentRide.id}:update` : null
-
-  const { isLoading, data } = useQuery(
+  const { data } = useQuery(
     {
       queryKey: ['currentRide', driver?.id, rider?.id],
       queryFn: async () => {
         const isRiderApp = pathname?.includes('rider')
-        return await fetch(`/api/${isRiderApp ? 'rider' : 'driver'}/${isRiderApp ? rider?.id : driver?.id}`).then(async (res) => await res.json())
+        const apiUrl = isRiderApp ? `/api/rider/${rider?.id}` : `/api/driver/${driver?.id}`
+        return await fetch(apiUrl).then(async (res) => await res.json())
       },
       refetchInterval: isConnected ? false : 1000,
       // refetchInterval: 1000,
@@ -42,25 +41,28 @@ const CurrentRideProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [data])
 
-
   useEffect(() => {
-    if (!socket) {
+    if (!socket || !isConnected) {
       return
     }
-    if (currentRideSocketKey) {
+
+    if (currentRide?.id) {
+      const currentRideSocketKey = `ride:${currentRide.id}:update`
       socket?.on(currentRideSocketKey, (data: { ride: Ride }) => {
-        console.log(`UPDATE rideKey: ${currentRideSocketKey} =>`, data)
+        console.log(`UPDATE rideKey: ${currentRideSocketKey} =>`, data.ride)
         setCurrentRide(data.ride)
       })
 
-      console.log('rideKey =>', currentRideSocketKey)
+      console.log('rideKey ON =>', currentRideSocketKey)
     }
     return () => {
-      if (currentRideSocketKey) {
-        socket?.off(currentRideSocketKey, {} as any)
+      if (currentRide?.id && socket && isConnected) {
+        const currentRideSocketKey = `ride:${currentRide.id}:update`
+        console.log('rideKey OFF =>', currentRideSocketKey)
+        socket?.off(currentRideSocketKey)
       }
     }
-  }, [currentRideSocketKey, socket, isConnected])
+  }, [currentRide?.id, socket, isConnected])
 
   return (
     <CurrentRideContext.Provider value={{ currentRide, setCurrentRide }}>
