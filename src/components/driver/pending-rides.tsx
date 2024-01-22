@@ -9,8 +9,6 @@ import useRideActions from '../../hooks/use-ride-actions'
 import { useUser } from '../providers/user-provider'
 import { Button } from '../ui/button'
 
-export const revalidate = 0
-
 const PendingRides = () => {
   const { driver } = useUser()
   const { acceptRide } = useRideActions()
