@@ -1,5 +1,11 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Ride, RideStatus } from '@prisma/client'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { type Ride, RideStatus } from '@prisma/client'
 import EstimatedRideCard from './estimated-ride-card'
 import AcceptedRideCard from './accepted-ride-card'
 

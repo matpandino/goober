@@ -1,6 +1,6 @@
 'use client'
 
-import { Ride } from '@/types';
+import { type Ride } from '@/types'
 import React, { createContext, useContext, useState } from 'react'
 
 interface CurrentRideContextType {
@@ -8,10 +8,12 @@ interface CurrentRideContextType {
   currentRide: Ride | null
 }
 
-const CurrentRideContext = createContext<CurrentRideContextType | undefined>(undefined);
+const CurrentRideContext = createContext<CurrentRideContextType | undefined>(
+  undefined,
+)
 
 const CurrentRideProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentRide, setCurrentRide] = useState<Ride | null>(null);
+  const [currentRide, setCurrentRide] = useState<Ride | null>(null)
 
   return (
     <CurrentRideContext.Provider value={{ currentRide, setCurrentRide }}>
@@ -21,11 +23,11 @@ const CurrentRideProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 const useRide = (): CurrentRideContextType => {
-  const context = useContext(CurrentRideContext);
+  const context = useContext(CurrentRideContext)
   if (!context) {
-    throw new Error('useRide must be used within a CurrentRideProvider');
+    throw new Error('useRide must be used within a CurrentRideProvider')
   }
-  return context;
-};
+  return context
+}
 
-export { CurrentRideProvider, useRide };
+export { CurrentRideProvider, useRide }

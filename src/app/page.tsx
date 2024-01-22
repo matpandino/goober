@@ -1,6 +1,6 @@
-"use client"
+'use client'
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -8,39 +8,54 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from '@/components/ui/card'
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { useUser } from "@/components/providers/user-provider"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { useUser } from '@/components/providers/user-provider'
 
 const formNewRiderSchema = z.object({
-  name: z.string().min(1).max(255).refine(data => data.trim() !== '', {
-    message: 'Field is required',
-  }),
+  name: z
+    .string()
+    .min(1)
+    .max(255)
+    .refine((data) => data.trim() !== '', {
+      message: 'Field is required',
+    }),
 })
 
 const formNewDriverSchema = z.object({
-  name: z.string().min(1).max(255).refine(data => data.trim() !== '', {
-    message: 'Field is required',
-  }),
-  car: z.string().min(1).max(255).refine(data => data.trim() !== '', {
-    message: 'Field is required',
-  }),
+  name: z
+    .string()
+    .min(1)
+    .max(255)
+    .refine((data) => data.trim() !== '', {
+      message: 'Field is required',
+    }),
+  car: z
+    .string()
+    .min(1)
+    .max(255)
+    .refine((data) => data.trim() !== '', {
+      message: 'Field is required',
+    }),
 })
 
 export default function Home() {
-  const router = useRouter();
+  const router = useRouter()
   const { loginRider, loginDriver } = useUser()
 
   const riderForm = useForm<z.infer<typeof formNewRiderSchema>>({
@@ -51,26 +66,32 @@ export default function Home() {
     resolver: zodResolver(formNewDriverSchema),
   })
 
-  const onSubmitNewRider = async (values: z.infer<typeof formNewRiderSchema>) => {
+  const onSubmitNewRider = async (
+    values: z.infer<typeof formNewRiderSchema>,
+  ) => {
     console.log(values)
     const loggedSuccessfully = await loginRider({ name: values.name })
     if (loggedSuccessfully) {
-      router.push('/rider');
+      router.push('/rider')
     } else {
       // todo show message
     }
   }
 
-  const onSubmitNewDriver = async (values: z.infer<typeof formNewDriverSchema>) => {
+  const onSubmitNewDriver = async (
+    values: z.infer<typeof formNewDriverSchema>,
+  ) => {
     console.log(values)
-    const loggedSuccessfully = await loginDriver({ name: values.name, car: values.car })
+    const loggedSuccessfully = await loginDriver({
+      name: values.name,
+      car: values.car,
+    })
     if (loggedSuccessfully) {
-      router.push('/driver');
+      router.push('/driver')
     } else {
       // todo show message
     }
   }
-
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -81,12 +102,17 @@ export default function Home() {
         </TabsList>
         <TabsContent value="new-rider">
           <Form {...riderForm}>
-            <form onSubmit={riderForm.handleSubmit(onSubmitNewRider)} className="space-y-8">
+            <form
+              onSubmit={riderForm.handleSubmit(onSubmitNewRider)}
+              className="space-y-8"
+            >
               <Card>
                 <CardHeader>
                   <CardTitle>Request your ride</CardTitle>
                   <CardDescription>
-                    {`Create an account here to start your trip. Click 'Continue' when you're done.`}
+                    {
+                      "Create an account here to start your trip. Click 'Continue' when you're done."
+                    }
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
@@ -118,12 +144,17 @@ export default function Home() {
         </TabsContent>
         <TabsContent value="new-driver">
           <Form {...driverForm}>
-            <form onSubmit={driverForm.handleSubmit(onSubmitNewDriver)} className="space-y-8">
+            <form
+              onSubmit={driverForm.handleSubmit(onSubmitNewDriver)}
+              className="space-y-8"
+            >
               <Card>
                 <CardHeader>
                   <CardTitle>Drive with Goober</CardTitle>
                   <CardDescription>
-                    {`Register here to start riding with us. Click 'Continue' when you're done.`}
+                    {
+                      "Register here to start riding with us. Click 'Continue' when you're done."
+                    }
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">

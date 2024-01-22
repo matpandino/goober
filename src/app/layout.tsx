@@ -23,13 +23,14 @@ export default function RootLayout({
       <body className={inter.className}>
         <SocketProvider>
           <UserProvider>
-            <CurrentRideProvider>
-              {children}
-            </CurrentRideProvider>
+            <CurrentRideProvider>{children}</CurrentRideProvider>
           </UserProvider>
         </SocketProvider>
       </body>
-      <Script async src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&callback=GMAPSSCRIPT`} />
+      <Script
+        async
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&callback=GMAPSSCRIPT`}
+      />
     </html>
   )
 }

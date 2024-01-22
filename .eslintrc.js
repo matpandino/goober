@@ -1,33 +1,57 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [
+    "standard",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+  ],
+  overrides: [
+    {
+      env: {
+        node: true,
+      },
+      files: [".eslintrc.{js,cjs}"],
+      parserOptions: {
+        sourceType: "script",
+      },
     },
-    "extends": [
-        "standard-with-typescript",
-        "plugin:react/recommended"
-    ],
-    "overrides": [
-        {
-            "env": {
-                "node": true
-            },
-            "files": [
-                ".eslintrc.{js,cjs}"
-            ],
-            "parserOptions": {
-                "sourceType": "script"
-            }
-        }
-    ],
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+  ],
+  plugins: ["react", "@typescript-eslint"],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
     },
-    "plugins": [
-        "react"
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
+  rules: {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        printWidth: 80,
+        tabWidth: 2,
+        singleQuote: true,
+        trailingComma: "all",
+        arrowParens: "always",
+        semi: false,
+        endOfLine: "auto",
+      },
     ],
-    "rules": {
-    }
-}
+    "react/no-unknown-property": "error",
+  },
+  settings: {
+    react: {
+      version: "detect",
+    },
+    "import/parsers": {
+      [require.resolve("@typescript-eslint/parser")]: [".ts", ".tsx", ".d.ts"],
+    },
+  },
+};
