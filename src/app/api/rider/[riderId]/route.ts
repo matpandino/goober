@@ -3,16 +3,26 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '../../../../lib/prisma'
 
 export async function GET(request: NextRequest, { params: { riderId } }: { params: { riderId?: string } }) {
-    console.log('DRIVERID', riderId)
 
     const currentRide = await prisma.ride.findFirst({
         where: {
-            riderId: {
-                equals: riderId,
+            AND: [{
+                riderId: {
+                    equals: riderId,
+                }
             },
-            status: {
-                equals: RideStatus.ACCEPTED
-            },
+            {
+                OR: [{
+                    status: {
+                        equals: RideStatus.ACCEPTED
+                    },
+                },
+                {
+                    status: {
+                        equals: RideStatus.REQUESTED
+                    }
+                }]
+            }]
         },
         include: {
             rider: true,

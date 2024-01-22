@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { type RideCreateBody } from '@/types'
 import { NextResponse } from 'next/server'
+import { calculateRidePrice } from '../../../lib/calculate-ride-price'
 
 export async function POST(request: Request) {
   try {
@@ -16,7 +17,8 @@ export async function POST(request: Request) {
       toName,
     } = await request.json()
 
-    // if rider has ongoing ride requests that are REQUESTED or ACCEPTED cancel all
+    const ridePrice = calculateRidePrice({ distanceMeters: distance, durationSeconds: estDuration })
+    // TODO: check if rider has ongoing ride requests that are REQUESTED or ACCEPTED cancel all
 
     const riderCreated = await prisma.ride.create({
       data: {
@@ -25,6 +27,7 @@ export async function POST(request: Request) {
         fromLat,
         fromLng,
         fromName,
+        price: ridePrice,
         toLat,
         toLng,
         toName,
