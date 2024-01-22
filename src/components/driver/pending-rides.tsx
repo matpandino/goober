@@ -17,7 +17,11 @@ const PendingRides = () => {
   const { isLoading, data } = useQuery({
     queryKey: ['pendingRides'],
     queryFn: async () =>
-      await fetch('/api/rides/pending').then(async (res) => await res.json()),
+      await fetch('/api/rides/pending', {
+        next: {
+          revalidate: 10,
+        },
+      }).then(async (res) => await res.json()),
     refetchInterval: 1000,
   })
 
