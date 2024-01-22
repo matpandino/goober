@@ -14,3 +14,8 @@ export const kmFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export const formatSecondsToText = (seconds: number) => formatDistance(0, seconds * 1000, { includeSeconds: true })
+
+export const moneyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
