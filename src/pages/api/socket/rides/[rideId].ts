@@ -32,6 +32,8 @@ export default async function handler(
             data: {
                 status: status as RideStatus | undefined,
                 cancelledAt: (status as RideStatus | undefined) === RideStatus.CANCELLED ? new Date() : undefined,
+                acceptedAt: (status as RideStatus | undefined) === RideStatus.ACCEPTED ? new Date() : undefined,
+                completedAt: (status as RideStatus | undefined) === RideStatus.COMPLETED ? new Date() : undefined,
                 ...(!!driverId ? {
                     driver: {
                         connect: {
@@ -40,6 +42,10 @@ export default async function handler(
                     }
                 } : {}),
             },
+            include: {
+                driver: true,
+                rider: true
+            }
         })
 
         const rideKey = `ride:${existingRide.id}:update`;
@@ -47,8 +53,6 @@ export default async function handler(
             ride: updatedRide,
         })
 
-        console.log('rideKey', rideKey)
-        console.log('updatedRide', updatedRide)
         return response.status(200).json(updatedRide)
     } catch (error) {
         console.log('Error updating ride', error)

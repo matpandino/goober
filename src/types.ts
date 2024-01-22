@@ -22,6 +22,7 @@ export type Rider = Prisma.RiderGetPayload<{
 
 export type Ride = Prisma.RideGetPayload<{
   include: {
-    rider: true
+    rider: true,
+    driver: true
   }
 }>
