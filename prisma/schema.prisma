@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,25 +8,43 @@ datasource db {
 }
 
 model Rider {
-  id String @id @default(uuid())
-
-  name String
-
+  id        String   @id @default(uuid())
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  rides Ride[]
+  rides     Ride[]
 }
 
 model Driver {
-  id String @id @default(uuid())
-
-  name   String
-  car    String
-  rides Ride[]
-
+  id        String   @id @default(uuid())
+  name      String
+  car       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  rides     Ride[]
+}
+
+model Ride {
+  id          String     @id @default(uuid())
+  riderId     String
+  driverId    String?
+  status      RideStatus @default(REQUESTED)
+  fromName    String
+  toName      String
+  estDuration Int
+  distance    Int
+  cancelledAt DateTime?
+  completedAt DateTime?
+  startedAt   DateTime?
+  acceptedAt  DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  fromLat     Float
+  fromLng     Float
+  toLat       Float
+  toLng       Float
+  driver      Driver?    @relation(fields: [driverId], references: [id])
+  rider       Rider      @relation(fields: [riderId], references: [id])
 }
 
 enum RideStatus {
@@ -37,30 +52,4 @@ enum RideStatus {
   ACCEPTED
   COMPLETED
   CANCELLED
-}
-
-model Ride {
-  id String @id @default(uuid())
-
-  rider       Rider      @relation(fields: [riderId], references: [id])
-  riderId     String
-  driver      Driver?    @relation(fields: [driverId], references: [id])
-  driverId    String?
-  status      RideStatus @default(REQUESTED)
-  fromName    String
-  fromLat     Float
-  fromLng     Float
-  toName      String
-  toLat       Float
-  toLng       Float
-  estDuration Int
-  distance    Int
-
-  cancelledAt DateTime?
-  completedAt DateTime?
-  startedAt   DateTime?
-  acceptedAt  DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
