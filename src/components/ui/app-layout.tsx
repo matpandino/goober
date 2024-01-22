@@ -1,39 +1,55 @@
 'use client'
 
+import { usePathname, useRouter } from 'next/navigation'
 import { type ReactNode } from 'react'
-
+import { useUser } from '../providers/user-provider'
+import { Button } from './button'
+import SocketIndicator from './socket-indicator'
 
 interface LayoutProps {
-  header: ReactNode
   leftContent?: ReactNode
   rightContent?: ReactNode
 }
 
-export const Layout = ({ header, leftContent, rightContent }: LayoutProps) => {
+export const Layout = ({ leftContent, rightContent }: LayoutProps) => {
+  const pathname = usePathname();
+  const router = useRouter()
+  const { driver, rider, logoutRider, logoutDriver } = useUser()
+  const isDriverApp = !!pathname?.includes('driver')
+
+  const handleLogout = () => {
+    if (isDriverApp && rider?.id) {
+      logoutRider()
+    }
+    if (!isDriverApp && driver?.id) {
+      logoutDriver()
+    }
+    router.push('/')
+  }
+
   return (
     <div className="flex h-screen flex-col w-full bg-background">
       <header className="bg-background w-full px-2">
         <nav
-          className="mx-auto flex max-w-7xl items-center justify-between p-3 lg:px-8"
+          className="mx-auto flex items-center justify-between p-3"
           aria-label="Global"
         >
-          {header}
-          {/* <div className="flex lg:flex-1">
-                        <a href="#" className="-m-1.5 p-1.5">
-                            <span className="text-lg text-pretty">Goober</span>
-                        </a>
-                    </div>
-                    <div className="flex lg:flex-1">
-                        <a href="#" className="-m-1.5 p-1.5">
-                            <span className="text-md text-pretty">Log out</span>
-                        </a>
-                    </div>
-
-                    <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                            Log in <span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </div> */}
+          <div>
+            <span className='mr-2'>Goober <b>{isDriverApp ? 'driver': 'rider'}</b></span>
+            <SocketIndicator />
+          </div>
+          {isDriverApp && driver?.id && (
+            <div>
+              <span className='mr-2'>Hello {driver?.name}!</span>{' '}
+              <Button onClick={handleLogout}>Logout</Button>
+            </div>
+          )}
+          {!isDriverApp && rider?.id && (
+            <div>
+              <span className='mr-2'>Hello {rider?.name}!</span>{' '}
+              <Button onClick={handleLogout}>Logout</Button>
+            </div>
+          )}
         </nav>
       </header>
       <main className="h-full w-full flex p-4 gap-4">
