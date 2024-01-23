@@ -57,5 +57,8 @@ yarn && yarn dev
 
 ## Pictures
 
+
+<img width="1509" alt="image" src="https://github.com/matpandino/goober/assets/16725679/a9bc573a-d9f9-46a9-959b-1df26738ebc8">
+
 <img width="1510" alt="image" src="https://github.com/matpandino/goober/assets/16725679/11a93961-a9ed-4220-9644-ed53d7b3f962">
 
