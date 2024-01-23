@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Goober
+
+## Main Technologies
+
+- Typescript
+- Next.js
+- Prisma
+- Socket.io
+
+## Challenges
+
+The primary challenge for this project was to keep both Rider and Driver users updated in real-time or near real-time conditions. To address this, I utilized `Socket.io` and employed polling through the `@tanstack/react-query` library as a backup.
+
+During the development process, I chose to use polling in specific parts of the code, such as searching for pending rides, and reserved socket implementation for active rides.
+
+## Decisions and Project Scope
+
+### Socket.io Implementation in Next.js APP API Routes
+
+One of the main challenges in this project was implementing `Socket.io` on Next.js APP API routes. I successfully implemented it in the Next.js PAGES API directory, a hacky but needed solution for overcoming technical limitations from Next.js. 
+
+### Integration of Ride Route Map
+
+Adding a map with the ride route to the application was a considered decision, despite requiring more development time. The outcome justified the effort, as it significantly improved the app experience.
+
+### Session Handling
+
+The app includes a basic one-time session to enhance the user experience. It lacks any form of authentication or persistent sessions, as it falls outside the scope of this MVP.
+
+### Code Reusability
+
+To optimize development time, I intentionally mixed some components and logic from both the Rider and Driver apps. I applied this approach to features with the same or very similar logic to avoid redundant code.
+
+### Deploy to Vercel
+
+An encountered frustration was attempting to deploy to Vercel. It seems Vercel has a time limit on functions, causing inconsistent socket connections.
+
+## UI
+
+I extensively utilized [ui.shadcn.com](https://ui.shadcn.com/) for its accessible and visually appealing components. The goal was to maintain a clean UI design throughout the application.
+
+## Environment Variables
+
+Two essential environment variables are required for this project:
+
+1. `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`: Google Maps API key with access to Maps JavaScript API, Directions API, Geocoding API, and Places API. Used for autocompleting locations, geolocation, visualizing Google maps, calculating route distance, and obtaining directions.
+
+2. `DATABASE_URL`: Connection string for the database. The project has been tested only with PostgreSQL.
 
 ## Getting Started
 
-First, run the development server:
+To run the development server, execute the following command:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+yarn && yarn dev
