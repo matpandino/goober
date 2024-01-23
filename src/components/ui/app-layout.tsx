@@ -1,8 +1,8 @@
 'use client'
 
+import { useUser } from '@/components/providers/user-provider'
 import { usePathname, useRouter } from 'next/navigation'
 import { type ReactNode } from 'react'
-import { useUser } from '../providers/user-provider'
 import { Button } from './button'
 import SocketIndicator from './socket-indicator'
 

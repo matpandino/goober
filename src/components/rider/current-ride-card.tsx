@@ -1,3 +1,6 @@
+import AcceptedRideCard from '@/components/ride/accepted-ride-card'
+import CanceledRideCard from '@/components/ride/canceled-ride-card'
+import CardRideContentInfo from '@/components/ride/card-ride-content-info'
 import CompletedRideCard from '@/components/ride/completed-ride-card'
 import {
   Card,
@@ -7,9 +10,6 @@ import {
 } from '@/components/ui/card'
 import { Ride } from '@/types'
 import { RideStatus } from '@prisma/client'
-import AcceptedRideCard from '../ride/accepted-ride-card'
-import CanceledRideCard from '../ride/canceled-ride-card'
-import CardRideContentInfo from '../ride/card-ride-content-info'
 import EstimatedRideCard from './estimated-ride-card'
 
 const CurrentRide = ({ ride }: { ride: Ride }) => {

@@ -1,10 +1,10 @@
 import { CurrentRideProvider } from '@/components/providers/current-ride-provider'
+import { QueryProvider } from '@/components/providers/query-provider'
 import { SocketProvider } from '@/components/providers/socket-provider'
 import { UserProvider } from '@/components/providers/user-provider'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
-import { QueryProvider } from '../components/providers/query-provider'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })

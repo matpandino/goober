@@ -1,12 +1,7 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-import { useUser } from '../providers/user-provider'
-import { Button } from '../ui/button'
+import { useUser } from '@/components/providers/user-provider'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -14,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../ui/card'
+} from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -23,8 +18,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form'
-import { Input } from '../ui/input'
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
 const formNewDriverSchema = z.object({
   name: z

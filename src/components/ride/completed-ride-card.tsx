@@ -1,5 +1,7 @@
 'use client'
 
+import CardRideContentInfo from '@/components/ride/card-ride-content-info'
+import ResetRide from '@/components/ride/reset-ride-button'
 import {
   Card,
   CardDescription,
@@ -8,8 +10,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Ride } from '@/types'
-import CardRideContentInfo from '../ride/card-ride-content-info'
-import ResetRide from '../ride/reset-ride-button'
 
 const CompletedRideCard = ({ ride }: { ride: Ride }) => {
   return (

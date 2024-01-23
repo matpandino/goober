@@ -1,7 +1,7 @@
+import { calculateRidePrice } from '@/lib/calculate-ride-price'
 import { prisma } from '@/lib/prisma'
 import { type RideCreateBody } from '@/types'
 import { NextResponse } from 'next/server'
-import { calculateRidePrice } from '../../../lib/calculate-ride-price'
 
 export async function POST(request: Request) {
   try {

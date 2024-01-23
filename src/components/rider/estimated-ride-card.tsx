@@ -1,3 +1,5 @@
+import CancelRideButton from '@/components/ride/cancel-ride-button'
+import CardRideContentInfo from '@/components/ride/card-ride-content-info'
 import {
   Card,
   CardDescription,
@@ -6,8 +8,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Ride } from '@/types'
-import CancelRideButton from '../ride/cancel-ride-button'
-import CardRideContentInfo from '../ride/card-ride-content-info'
 
 const EstimatedRideCard = ({ ride }: { ride: Ride }) => {
   return (

@@ -1,13 +1,13 @@
 'use client'
 
+import { useUser } from '@/components/providers/user-provider'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import useRideActions from '@/hooks/use-ride-actions'
 import { kmFormatter, moneyFormatter } from '@/lib/utils'
 import { type Ride } from '@/types'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import useRideActions from '../../hooks/use-ride-actions'
-import { useUser } from '../providers/user-provider'
-import { Button } from '../ui/button'
 
 const PendingRides = () => {
   const { driver } = useUser()
