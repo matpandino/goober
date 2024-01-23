@@ -17,11 +17,19 @@ export async function POST(request: Request) {
       toName,
     } = await request.json()
 
+    const existingRider = await prisma.rider.findFirst({
+      where: { id: riderId },
+      include: { rides: true },
+    })
+
+    if (!existingRider) {
+      return NextResponse.json({ error: 'Rider not found' }, { status: 400 })
+    }
+
     const ridePrice = calculateRidePrice({
       distanceMeters: distance,
       durationSeconds: estDuration,
     })
-    // TODO: check if rider has ongoing ride requests that are REQUESTED or ACCEPTED cancel all
 
     const riderCreated = await prisma.ride.create({
       data: {
