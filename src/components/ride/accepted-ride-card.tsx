@@ -10,15 +10,18 @@ import {
 import { Ride } from '@/types'
 import CancelRideButton from './cancel-ride-button'
 import CardRideContentInfo from './card-ride-content-info'
+import FinishRideButton from './finish-ride-button'
 
 const AcceptedRideCard = ({
   ride,
   showDriverInfo = true,
   showRiderInfo = true,
+  showFinishRide = false,
 }: {
   ride: Ride
   showDriverInfo?: boolean
   showRiderInfo?: boolean
+  showFinishRide?: boolean
 }) => {
   return (
     <Card className="bg-slate-100">
@@ -36,7 +39,8 @@ const AcceptedRideCard = ({
         showRiderInfo={showRiderInfo}
         showDriverInfo={showDriverInfo}
       />
-      <CardFooter>
+      <CardFooter className="flex-col gap-3">
+        {showFinishRide && <FinishRideButton />}
         <CancelRideButton />
       </CardFooter>
     </Card>

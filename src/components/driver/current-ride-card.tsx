@@ -13,7 +13,9 @@ import CardRideContentInfo from '../ride/card-ride-content-info'
 
 const CurrentRide = ({ ride }: { ride: Ride }) => {
   if (ride.status === RideStatus.ACCEPTED) {
-    return <AcceptedRideCard ride={ride} showDriverInfo={false} />
+    return (
+      <AcceptedRideCard ride={ride} showFinishRide showDriverInfo={false} />
+    )
   }
   if (ride.status === RideStatus.COMPLETED) {
     return <CompletedRideCard ride={ride} />
