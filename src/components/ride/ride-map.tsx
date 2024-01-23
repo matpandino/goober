@@ -38,7 +38,6 @@ const RideMap = ({ children }: { children?: ReactNode }) => {
 
   return (
     <div ref={ref} className="flex flex-1 relative rounded-md">
-      w{mapWidth} h{mapHeight}
       <Map
         mapContainerStyle={{
           width: mapWidth,
