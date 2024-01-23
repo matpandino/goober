@@ -17,7 +17,6 @@ const useDirections = () => {
   ) => {
     try {
       if (!google) {
-        console.log('google is not available')
         throw new Error('Google service is not ready')
       }
       const directionService = new google.maps.DirectionsService()
@@ -26,7 +25,6 @@ const useDirections = () => {
         destination,
         travelMode: google.maps.TravelMode.DRIVING,
       })
-      console.log('directions result: ', result)
       setDirection(result)
       return result
     } catch (error) {

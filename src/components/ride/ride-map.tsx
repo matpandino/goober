@@ -16,20 +16,17 @@ const RideMap = ({ children }: { children?: ReactNode }) => {
 
   useEffect(() => {
     const updateMap = async () => {
-      console.log('updating map', currentRide)
       if (
         currentRide?.id &&
         currentRide.status !== RideStatus.COMPLETED &&
         currentRide.status !== RideStatus.CANCELLED
       ) {
-        console.log('updating map1')
         const { fromLat, fromLng, toLat, toLng } = currentRide
         await calculateDirections(
           { lat: fromLat, lng: fromLng },
           { lat: toLat, lng: toLng },
         )
       } else {
-        console.log('updating map2')
         await clearDirections()
       }
     }

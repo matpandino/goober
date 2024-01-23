@@ -43,7 +43,6 @@ export const SearchTrip = ({
   })
 
   const onSubmit = (values: z.infer<typeof formSearchForTripSchema>) => {
-    console.log('searching: ', values)
     onSearch(values)
   }
 

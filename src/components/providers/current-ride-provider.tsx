@@ -49,16 +49,12 @@ const CurrentRideProvider = ({ children }: { children: React.ReactNode }) => {
     if (currentRide?.id) {
       const currentRideSocketKey = `ride:${currentRide.id}:update`
       socket?.on(currentRideSocketKey, (data: { ride: Ride }) => {
-        console.log(`UPDATE rideKey: ${currentRideSocketKey} =>`, data.ride)
         setCurrentRide(data.ride)
       })
-
-      console.log('rideKey ON =>', currentRideSocketKey)
     }
     return () => {
       if (currentRide?.id && socket && isConnected) {
         const currentRideSocketKey = `ride:${currentRide.id}:update`
-        console.log('rideKey OFF =>', currentRideSocketKey)
         socket?.off(currentRideSocketKey)
       }
     }

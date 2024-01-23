@@ -51,7 +51,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
     const storedRider = JSON.parse(
       localStorage.getItem(RIDER_KEY) || 'null',
     ) as Rider | null
-    console.log('storedRider', JSON.stringify(storedRider))
     if (storedRider) {
       setRider(storedRider)
     }
@@ -86,7 +85,6 @@ const UserProvider = ({ children }: UserProviderProps) => {
         body: JSON.stringify({ name }),
         headers: { 'Content-Type': 'application/json' },
       })
-      console.log('data', data)
 
       const riderData = await data.json()
       if (riderData) {

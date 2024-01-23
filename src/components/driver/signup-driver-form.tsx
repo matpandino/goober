@@ -55,7 +55,6 @@ const SignUpDriverForm = () => {
   const onSubmitNewDriver = async (
     values: z.infer<typeof formNewDriverSchema>,
   ) => {
-    console.log(values)
     setIsLoading(true)
     const loggedSuccessfully = await loginDriver({
       name: values.name,

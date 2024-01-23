@@ -49,7 +49,6 @@ const SignUpRiderForm = () => {
     values: z.infer<typeof formNewRiderSchema>,
   ) => {
     setIsLoading(true)
-    console.log(values)
     const loggedSuccessfully = await loginRider({ name: values.name })
     if (loggedSuccessfully) {
       router.push('/rider')

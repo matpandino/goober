@@ -6,8 +6,6 @@ export async function GET(
   request: NextRequest,
   { params: { driverId } }: { params: { driverId?: string } },
 ) {
-  console.log('DRIVERID', driverId)
-
   const currentRide = await prisma.ride.findFirst({
     where: {
       driverId: {
