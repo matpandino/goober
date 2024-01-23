@@ -39,7 +39,7 @@ export default function Home() {
               <CardFooter className="flex-col gap-2">
                 <Button
                   className="w-full"
-                  onClick={() => router.push('/rider')}
+                  onClick={() => router.push('/app/rider')}
                 >
                   Continue
                 </Button>
@@ -69,7 +69,7 @@ export default function Home() {
               <CardFooter className="flex-col gap-2">
                 <Button
                   className="w-full"
-                  onClick={() => router.push('/driver')}
+                  onClick={() => router.push('/app/driver')}
                 >
                   Continue
                 </Button>

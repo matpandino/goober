@@ -62,7 +62,7 @@ const SignUpDriverForm = () => {
     })
     setIsLoading(false)
     if (loggedSuccessfully) {
-      router.push('/driver')
+      router.push('/app/driver')
     } else {
       // todo show message
     }

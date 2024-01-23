@@ -51,7 +51,7 @@ const SignUpRiderForm = () => {
     setIsLoading(true)
     const loggedSuccessfully = await loginRider({ name: values.name })
     if (loggedSuccessfully) {
-      router.push('/rider')
+      router.push('/app/rider')
     } else {
       // todo show message
     }

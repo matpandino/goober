@@ -37,12 +37,14 @@ const RideMap = ({ children }: { children?: ReactNode }) => {
   }, [currentRide?.id])
 
   return (
-    <div ref={ref} className="w-full rounded-md">
+    <div ref={ref} className="flex flex-1 relative rounded-md">
+      w{mapWidth} h{mapHeight}
       <Map
         mapContainerStyle={{
-          height: mapHeight,
           width: mapWidth,
-          borderRadius: 10,
+          height: mapHeight,
+          position: 'absolute',
+          borderRadius: 8,
         }}
       >
         {direction && <DirectionsRenderer directions={direction} />}

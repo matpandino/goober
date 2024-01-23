@@ -2,10 +2,8 @@
 
 import { useRide } from '@/components/providers/current-ride-provider'
 import { useUser } from '@/components/providers/user-provider'
-import RideMap from '@/components/ride/ride-map'
 import CurrentRide from '@/components/rider/current-ride-card'
 import { SearchTrip } from '@/components/rider/search-trip'
-import { Layout } from '@/components/ui/app-layout'
 import { Coordinates } from '@/hooks/use-directions'
 import useRideActions from '@/hooks/use-ride-actions'
 import { useState } from 'react'
@@ -37,21 +35,16 @@ export default function Page() {
   }
 
   return (
-    <Layout
-      leftContent={
-        <div className="flex flex-col w-full gap-2 bg-background">
-          {!currentRide && (
-            <SearchTrip
-              disableSearchButton={isLoading}
-              onSearch={({ from, to }) =>
-                handleSearch({ origin: from, destination: to })
-              }
-            />
-          )}
-          {currentRide && <CurrentRide ride={currentRide} />}
-        </div>
-      }
-      rightContent={<RideMap />}
-    />
+    <div className="flex flex-col w-full gap-2 bg-background">
+      {!currentRide && (
+        <SearchTrip
+          disableSearchButton={isLoading}
+          onSearch={({ from, to }) =>
+            handleSearch({ origin: from, destination: to })
+          }
+        />
+      )}
+      {currentRide && <CurrentRide ride={currentRide} />}
+    </div>
   )
 }
