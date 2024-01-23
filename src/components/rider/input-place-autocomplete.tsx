@@ -29,7 +29,6 @@ const InputPlaceAutocomplete = ({
     setValue,
     clearSuggestions,
   } = usePlacesAutocomplete({
-    callbackName: 'GMAPSSCRIPT',
     initOnMount: true,
     debounce: 300,
   })

@@ -64,7 +64,7 @@ export const Layout = ({ leftContent, rightContent }: LayoutProps) => {
         )}
         {rightContent && (
           <div className="h-full flex flex-1 w-auto ">
-            <div className="flex flex-1 w-auto rounded-lg bg-slate-500">
+            <div className="flex flex-1 w-auto rounded-lg bg-slate-100">
               {rightContent}
             </div>
           </div>

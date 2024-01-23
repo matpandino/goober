@@ -1,10 +1,6 @@
 'use client'
 
-import {
-  GoogleMap,
-  useJsApiLoader,
-  type GoogleMapProps,
-} from '@react-google-maps/api'
+import { GoogleMap, type GoogleMapProps } from '@react-google-maps/api'
 import { memo } from 'react'
 import { usePosition } from 'use-position'
 
@@ -18,12 +14,7 @@ interface MapProps extends GoogleMapProps {}
 function Map(props: MapProps) {
   const { latitude, longitude } = usePosition(false)
 
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-  })
-
-  return isLoaded ? (
+  return (
     <GoogleMap
       options={{ disableDefaultUI: true }}
       mapContainerStyle={{ width: '800px', height: '800px', borderRadius: 10 }}
@@ -31,8 +22,6 @@ function Map(props: MapProps) {
       zoom={10}
       {...props}
     />
-  ) : (
-    <></>
   )
 }
 
