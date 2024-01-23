@@ -18,7 +18,7 @@ const PendingRides = () => {
     queryKey: ['pendingRides'],
     queryFn: async () =>
       await fetch('/api/rides/pending').then(async (res) => await res.json()),
-    refetchInterval: 10000,
+    refetchInterval: 1000,
   })
 
   const handleAcceptRide = async (ride: Ride) => {
