@@ -53,3 +53,9 @@ To run the development server, execute the following command:
 
 ```bash
 yarn && yarn dev
+```
+
+## Pictures
+
+<img width="1510" alt="image" src="https://github.com/matpandino/goober/assets/16725679/11a93961-a9ed-4220-9644-ed53d7b3f962">
+
