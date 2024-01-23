@@ -14,7 +14,7 @@ const CardRideContentInfo = ({
 }) => {
   return (
     <CardContent>
-      <div className="mb-4">
+      <div>
         {!!ride?.acceptedAt && (
           <>
             <span className="text-sm text-slate-500">
@@ -47,31 +47,34 @@ const CardRideContentInfo = ({
           Est. distance: {kmFormatter.format(ride.distance / 1000)}
         </span>
       </div>
-
-      <div>
-        {showDriverInfo && (
-          <div className="w-full flex justify-between">
-            {!!ride.driver?.name && (
+      {(showDriverInfo || showRiderInfo) && (
+        <div className="mt-4">
+          {showDriverInfo && (
+            <div className="w-full flex justify-between">
+              {!!ride.driver?.name && (
+                <span className="text-sm text-slate-500">
+                  Driver {ride.driver!.name}
+                </span>
+              )}
+              {!!ride.driver?.car && (
+                <span className="text-sm text-slate-500">
+                  Card model: {ride.driver!.car}
+                </span>
+              )}
+            </div>
+          )}
+          {showRiderInfo && (
+            <div>
               <span className="text-sm text-slate-500">
-                Driver {ride.driver!.name}
+                Requested by {ride.rider.name}
               </span>
-            )}
-            {!!ride.driver?.car && (
-              <span className="text-sm text-slate-500">
-                Card model: {ride.driver!.car}
-              </span>
-            )}
-          </div>
-        )}
-        {showRiderInfo && (
-          <span className="text-sm text-slate-500">
-            Requested by {ride.rider.name}
-          </span>
-        )}
-      </div>
-      <div>
-        <span className="text-lg flex justify-start">
-          Price: {moneyFormatter.format(ride.price / 100)}
+            </div>
+          )}
+        </div>
+      )}
+      <div className="flex justify-start mt-4">
+        <span className="text-lg text-green-600">
+          {moneyFormatter.format(ride.price / 100)}
         </span>
       </div>
     </CardContent>
