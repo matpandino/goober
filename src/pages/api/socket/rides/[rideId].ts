@@ -25,6 +25,13 @@ export default async function handler(
       return response.status(404).json({ error: 'Ride not found' })
     }
 
+    if (
+      status === RideStatus.ACCEPTED &&
+      existingRide.status !== RideStatus.REQUESTED
+    ) {
+      return response.status(400).json({ error: 'Ride is not available' })
+    }
+
     const updatedRide = await prisma.ride.update({
       where: {
         id: rideId as string,
