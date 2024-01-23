@@ -13,6 +13,7 @@ const PendingRides = () => {
   const { driver } = useUser()
   const { acceptRide } = useRideActions()
   const [isLoadingAccept, setIsLoadingAccept] = useState(false)
+  const [rejectedRides, setRejectedRides] = useState<string[]>([])
 
   const { isLoading, data } = useQuery({
     queryKey: ['pendingRides'],
@@ -31,6 +32,14 @@ const PendingRides = () => {
     setIsLoadingAccept(false)
   }
 
+  const handleRejectRide = (ride: Ride) => {
+    setRejectedRides((prev) => [...prev, ride.id])
+  }
+
+  const filteredRides = (data?.rides as Ride[] | undefined)?.filter(
+    (ride) => !rejectedRides.includes(ride.id),
+  )
+
   return (
     <Card className="bg-slate-100">
       <CardHeader>
@@ -40,7 +49,7 @@ const PendingRides = () => {
         {!!data?.rides?.length && (
           <div className="overflow-hidden rounded-md border border-gray-300 bg-background">
             <ul role="list" className="divide-y divide-gray-300">
-              {data?.rides?.map((ride: Ride) => (
+              {filteredRides?.map((ride: Ride) => (
                 <li
                   key={ride.id}
                   className="flex px-6 py-4 gap-2 text-sm justify-between items-center"
@@ -63,12 +72,21 @@ const PendingRides = () => {
                       {moneyFormatter.format(ride.price / 100)}
                     </span>
                   </div>
-                  <Button
-                    disabled={isLoadingAccept}
-                    onClick={() => handleAcceptRide(ride)}
-                  >
-                    Accept
-                  </Button>
+                  <div className="flex flex-col  gap-3">
+                    <Button
+                      disabled={isLoadingAccept}
+                      onClick={() => handleAcceptRide(ride)}
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      className="bg-red-600 hover:bg-red-500"
+                      disabled={isLoadingAccept}
+                      onClick={() => handleRejectRide(ride)}
+                    >
+                      Reject
+                    </Button>
+                  </div>
                 </li>
               ))}
             </ul>
