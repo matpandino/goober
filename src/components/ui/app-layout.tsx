@@ -18,11 +18,11 @@ export const Layout = ({ leftContent, rightContent }: LayoutProps) => {
   const isDriverApp = !!pathname?.includes('driver')
 
   const handleLogout = () => {
-    if (isDriverApp && rider?.id) {
-      logoutRider()
-    }
-    if (!isDriverApp && driver?.id) {
+    if (isDriverApp && driver?.id) {
       logoutDriver()
+    }
+    if (!isDriverApp && rider?.id) {
+      logoutRider()
     }
     router.push('/')
   }
