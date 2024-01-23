@@ -69,7 +69,7 @@ const CardRideContentInfo = ({
           </span>
         )}
       </div>
-      <div className="mt-4">
+      <div>
         <span className="text-lg flex justify-start">
           Price: {moneyFormatter.format(ride.price / 100)}
         </span>
